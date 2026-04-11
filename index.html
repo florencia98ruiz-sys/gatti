@@ -402,16 +402,34 @@
       background: rgba(0,0,0,0.75);
       padding: 4px 12px; border-radius: 50px;
     }
-    /* Placeholder style for portfolio items without images */
+    /* Placeholder style para items sin imagen */
     .portfolio-item--placeholder {
-      background: linear-gradient(135deg, #e8e8e8 0%, #d4d4d4 100%);
+      background: linear-gradient(135deg, #e4e4e4 0%, #d4d4d4 100%);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .portfolio-item--placeholder:hover {
+      background: linear-gradient(135deg, #d8d8d8 0%, #c8c8c8 100%);
+    }
+    /* Hint central (ícono + texto) */
+    .portfolio-item__hint {
+      position: absolute; inset: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 10px;
+      gap: 10px; z-index: 1;
     }
-    .portfolio-item--placeholder p {
-      font-size: 12px; color: rgba(0,0,0,0.35); text-align: center; padding: 0 20px;
+    .portfolio-item__hint svg { color: rgba(0,0,0,0.25); }
+    .portfolio-item__hint span {
+      font-size: 12px; font-weight: 600; color: rgba(0,0,0,0.30);
+      text-transform: uppercase; letter-spacing: 1.5px;
     }
-    .portfolio-item--placeholder svg { color: rgba(0,0,0,0.20); }
+    /* Una vez cargada la imagen, ocultar el hint */
+    .portfolio-item--loaded .portfolio-item__hint { display: none; }
+    .portfolio-item--loaded {
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      cursor: default;
+    }
 
     /* ─── LOCATIONS ────────────────────────────────────────────────── */
     .locations__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -820,36 +838,40 @@
         <p class="section__sub">Resultados reales para marcas reales. Cada trabajo es una declaración de calidad y compromiso.</p>
       </div>
       <div class="portfolio__grid">
-        <!-- Los items con clase --placeholder se reemplazan con <img> real -->
-        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 1 — pendiente de carga">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <p>Foto de trabajo destacado<br>Ej: cartelería Red Bull / Sport Club</p>
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="1" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 1">
+          <div class="portfolio-item__hint" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Clic para cargar foto</span>
+          </div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo destacado</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 2 — pendiente de carga">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <p>Foto de trabajo<br>Vinilos / Vidrieras</p>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="2" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 2">
+          <div class="portfolio-item__hint" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Clic para cargar foto</span>
+          </div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 2</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 3 — pendiente de carga">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <p>Foto de trabajo<br>Papelería institucional</p>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 3">
+          <div class="portfolio-item__hint" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Clic para cargar foto</span>
+          </div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 3</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 4 — pendiente de carga">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <p>Foto de trabajo<br>Gran formato / Evento</p>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="4" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 4">
+          <div class="portfolio-item__hint" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Clic para cargar foto</span>
+          </div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 4</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 5 — pendiente de carga">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <p>Foto de trabajo<br>Flota vehicular</p>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="5" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 5">
+          <div class="portfolio-item__hint" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Clic para cargar foto</span>
+          </div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 5</span></div>
         </div>
       </div>
     </div>
@@ -1105,8 +1127,68 @@
       });
     }
 
-    // Para resetear la imagen: abrí la consola y ejecutá:
+    // Para resetear la imagen hero:
     // localStorage.removeItem('gatti_hero_image'); location.reload();
+
+    // ─── PORTFOLIO IMAGES — carga y guarda cada foto ────────────────
+    // Input de archivo compartido (se reutiliza para cada item)
+    const portfolioFileInput = document.createElement('input');
+    portfolioFileInput.type = 'file';
+    portfolioFileInput.accept = 'image/*';
+    portfolioFileInput.style.display = 'none';
+    document.body.appendChild(portfolioFileInput);
+
+    let activePortfolioItem = null;
+
+    function applyPortfolioImage(item, dataUrl) {
+      item.style.backgroundImage = `url('${dataUrl}')`;
+      item.classList.add('portfolio-item--loaded');
+      item.classList.remove('portfolio-item--placeholder');
+      item.removeAttribute('role');
+      item.removeAttribute('tabindex');
+    }
+
+    // Cargar imágenes guardadas al iniciar
+    document.querySelectorAll('[data-portfolio-id]').forEach(item => {
+      const id = item.dataset.portfolioId;
+      const saved = localStorage.getItem(`gatti_portfolio_${id}`);
+      if (saved) {
+        applyPortfolioImage(item, saved);
+      } else {
+        // Clic abre el selector de archivo
+        item.addEventListener('click', () => {
+          activePortfolioItem = item;
+          portfolioFileInput.value = '';
+          portfolioFileInput.click();
+        });
+        item.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activePortfolioItem = item;
+            portfolioFileInput.value = '';
+            portfolioFileInput.click();
+          }
+        });
+      }
+    });
+
+    // Cuando el usuario elige un archivo
+    portfolioFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file || !activePortfolioItem) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const dataUrl = ev.target.result;
+        const id = activePortfolioItem.dataset.portfolioId;
+        applyPortfolioImage(activePortfolioItem, dataUrl);
+        localStorage.setItem(`gatti_portfolio_${id}`, dataUrl);
+        activePortfolioItem = null;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Para resetear todas las fotos del portfolio:
+    // for(let i=1;i<=5;i++) localStorage.removeItem(`gatti_portfolio_${i}`); location.reload();
   </script>
 </body>
 </html>
