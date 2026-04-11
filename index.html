@@ -426,10 +426,30 @@
     .portfolio-item--loaded .portfolio-item__hint { display: none; }
     .portfolio-item--loaded {
       background-size: cover !important;
-      background-position: center !important;
       background-repeat: no-repeat !important;
-      cursor: default;
+      cursor: grab;
+      user-select: none;
     }
+    .portfolio-item--loaded:active { cursor: grabbing; }
+
+    /* Badge "mover" — aparece al hacer hover sobre una foto cargada */
+    .reposition-badge {
+      position: absolute; top: 10px; right: 10px; z-index: 5;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.5px; padding: 5px 10px; border-radius: 50px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .portfolio-item--loaded:hover .reposition-badge,
+    .hero--draggable:hover .reposition-badge { opacity: 1; }
+
+    /* Hero draggable */
+    .hero--draggable .hero__photo { cursor: grab; }
+    .hero--draggable .hero__photo:active { cursor: grabbing; }
 
     /* ─── LOCATIONS ────────────────────────────────────────────────── */
     .locations__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -634,6 +654,7 @@
     <div class="hero__photo" aria-hidden="true"></div>
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__grid-lines" aria-hidden="true"></div>
+    <div class="reposition-badge" aria-hidden="true" style="top:80px; right:24px; z-index:10;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
     <div class="container">
       <div class="hero__inner">
         <div class="hero__content">
@@ -843,6 +864,7 @@
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <span>Clic para cargar foto</span>
           </div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo destacado</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="2" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 2">
@@ -850,6 +872,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <span>Clic para cargar foto</span>
           </div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 2</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 3">
@@ -857,6 +880,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <span>Clic para cargar foto</span>
           </div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 3</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="4" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 4">
@@ -864,6 +888,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <span>Clic para cargar foto</span>
           </div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 4</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="5" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 5">
@@ -871,6 +896,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <span>Clic para cargar foto</span>
           </div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 5</span></div>
         </div>
       </div>
@@ -1140,12 +1166,92 @@
 
     let activePortfolioItem = null;
 
+    // ─── DRAG TO REPOSITION ─────────────────────────────────────────
+    // Permite arrastrar una foto cargada para cambiar el encuadre.
+    // Funciona sobre cualquier elemento con background-image.
+    function enableReposition(element, storageKey) {
+      let dragging = false;
+      let startX, startY, posX, posY;
+
+      // Cargar posición guardada (default: centro)
+      const savedPos = localStorage.getItem(storageKey + '_pos');
+      if (savedPos) {
+        const p = JSON.parse(savedPos);
+        posX = p.x; posY = p.y;
+      } else {
+        posX = 50; posY = 50;
+      }
+      element.style.backgroundPosition = `${posX}% ${posY}%`;
+
+      element.addEventListener('mousedown', e => {
+        // En portfolio: solo activar si ya tiene imagen (no en placeholder)
+        if (element.classList.contains('portfolio-item--placeholder')) return;
+        dragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        element.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const rect = element.getBoundingClientRect();
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        // Sensibilidad: más recorrido del mouse = más movimiento del fondo
+        posX = Math.max(0, Math.min(100, posX - (dx / rect.width)  * 100));
+        posY = Math.max(0, Math.min(100, posY - (dy / rect.height) * 100));
+        element.style.backgroundPosition = `${posX}% ${posY}%`;
+        startX = e.clientX;
+        startY = e.clientY;
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false;
+        element.style.cursor = element.classList.contains('portfolio-item--loaded') ? 'grab' : '';
+        localStorage.setItem(storageKey + '_pos', JSON.stringify({ x: posX, y: posY }));
+      });
+
+      // Touch support (mobile)
+      element.addEventListener('touchstart', e => {
+        if (element.classList.contains('portfolio-item--placeholder')) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        dragging = true;
+      }, { passive: true });
+
+      element.addEventListener('touchmove', e => {
+        if (!dragging) return;
+        const rect = element.getBoundingClientRect();
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        posX = Math.max(0, Math.min(100, posX - (dx / rect.width)  * 100));
+        posY = Math.max(0, Math.min(100, posY - (dy / rect.height) * 100));
+        element.style.backgroundPosition = `${posX}% ${posY}%`;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+
+      element.addEventListener('touchend', () => {
+        if (!dragging) return;
+        dragging = false;
+        localStorage.setItem(storageKey + '_pos', JSON.stringify({ x: posX, y: posY }));
+      });
+    }
+
+    // Habilitar reposición en el hero
+    enableReposition(document.querySelector('.hero__photo'), STORAGE_KEY);
+    document.querySelector('.hero').classList.add('hero--draggable');
+
     function applyPortfolioImage(item, dataUrl) {
       item.style.backgroundImage = `url('${dataUrl}')`;
       item.classList.add('portfolio-item--loaded');
       item.classList.remove('portfolio-item--placeholder');
       item.removeAttribute('role');
       item.removeAttribute('tabindex');
+      const id = item.dataset.portfolioId;
+      enableReposition(item, `gatti_portfolio_${id}`);
     }
 
     // Cargar imágenes guardadas al iniciar
@@ -1187,9 +1293,10 @@
       reader.readAsDataURL(file);
     });
 
-    // Para resetear todas las fotos del portfolio:
-    // for(let i=1;i<=5;i++) localStorage.removeItem(`gatti_portfolio_${i}`); location.reload();
+    // Para resetear todo:
+    // localStorage.clear(); location.reload();
   </script>
 </body>
 </html>
+
 
