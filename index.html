@@ -376,14 +376,27 @@
     .portfolio__grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 260px;
       gap: 16px;
     }
     .portfolio-item {
       border-radius: var(--radius-md); overflow: hidden;
       position: relative; background: #e8e8e8;
-      aspect-ratio: 4/3;
     }
-    .portfolio-item--wide { grid-column: span 2; aspect-ratio: 16/9; }
+    .portfolio-item--wide { grid-column: span 2; }
+    .portfolio-item--tall  { grid-row: span 2; }
+
+    /* Colocación explícita de los 10 items */
+    [data-portfolio-id="1"]  { grid-column: 1 / span 2; grid-row: 1; }
+    [data-portfolio-id="2"]  { grid-column: 3;           grid-row: 1; }
+    [data-portfolio-id="3"]  { grid-column: 4;           grid-row: 1 / span 2; }
+    [data-portfolio-id="4"]  { grid-column: 1;           grid-row: 2; }
+    [data-portfolio-id="5"]  { grid-column: 2;           grid-row: 2; }
+    [data-portfolio-id="6"]  { grid-column: 3;           grid-row: 2; }
+    [data-portfolio-id="7"]  { grid-column: 1 / span 2;  grid-row: 3; }
+    [data-portfolio-id="8"]  { grid-column: 3 / span 2;  grid-row: 3; }
+    [data-portfolio-id="9"]  { grid-column: 1 / span 2;  grid-row: 4; }
+    [data-portfolio-id="10"] { grid-column: 3 / span 2;  grid-row: 4; }
     .portfolio-item__img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.5s ease;
@@ -602,9 +615,19 @@
     }
     @media (max-width: 900px) {
       .why__grid { grid-template-columns: 1fr; gap: 28px; }
-      .portfolio__grid { grid-template-columns: 1fr 1fr; }
+      .portfolio__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
       .portfolio-item--wide { grid-column: span 2; }
-      .portfolio-item { aspect-ratio: 4/3; }
+      .portfolio-item--tall { grid-row: span 2; }
+      [data-portfolio-id="1"]  { grid-column: 1 / span 2; grid-row: auto; }
+      [data-portfolio-id="2"]  { grid-column: auto; grid-row: auto; }
+      [data-portfolio-id="3"]  { grid-column: auto; grid-row: auto / span 2; }
+      [data-portfolio-id="4"]  { grid-column: auto; grid-row: auto; }
+      [data-portfolio-id="5"]  { grid-column: auto; grid-row: auto; }
+      [data-portfolio-id="6"]  { grid-column: auto; grid-row: auto; }
+      [data-portfolio-id="7"]  { grid-column: 1 / span 2; grid-row: auto; }
+      [data-portfolio-id="8"]  { grid-column: 1 / span 2; grid-row: auto; }
+      [data-portfolio-id="9"]  { grid-column: 1 / span 2; grid-row: auto; }
+      [data-portfolio-id="10"] { grid-column: 1 / span 2; grid-row: auto; }
     }
     @media (max-width: 768px) {
       .navbar__nav { display: none; }
@@ -614,9 +637,9 @@
       .locations__grid { grid-template-columns: 1fr; }
       .footer__inner { grid-template-columns: 1fr; gap: 32px; }
       .footer__bottom { flex-direction: column; gap: 12px; text-align: center; }
-      .portfolio__grid { grid-template-columns: 1fr; }
-      .portfolio-item--wide { grid-column: span 1; }
-      .portfolio-item { aspect-ratio: 4/3; }
+      .portfolio__grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+      .portfolio-item--wide, .portfolio-item--tall { grid-column: 1; grid-row: auto; }
+      [data-portfolio-id] { grid-column: 1; grid-row: auto; }
     }
     @media (max-width: 480px) {
       .section { padding: 72px 0; }
@@ -890,7 +913,7 @@
           <button class="change-photo-btn" aria-label="Cambiar foto 2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 2</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto 3">
+        <div class="portfolio-item portfolio-item--tall portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto 3">
           <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
@@ -909,7 +932,7 @@
           <button class="change-photo-btn" aria-label="Cambiar foto 5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 5</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="6" role="button" tabindex="0" aria-label="Clic para cargar foto 6">
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="6" role="button" tabindex="0" aria-label="Clic para cargar foto 6">
           <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
@@ -1372,5 +1395,6 @@
   </script>
 </body>
 </html>
+
 
 
