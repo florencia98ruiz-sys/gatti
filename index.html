@@ -7,14 +7,14 @@
   <meta name="description" content="Más de 60 años de experiencia en producción gráfica de alta calidad. Cartelería, papelería institucional, vinilos y más. Microcentro y Zona Oeste." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     /* ─── RESET & BASE ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
-      background: #FAFAFA;
+      background: #FFFFFF;
       color: #1C1C1E;
       line-height: 1.6;
       overflow-x: hidden;
@@ -24,22 +24,26 @@
 
     /* ─── DESIGN TOKENS ────────────────────────────────────────────── */
     :root {
-      --c-black:   #0D0D0D;
-      --c-dark:    #1C1C1E;
+      --c-black:   #0A0A0A;
+      --c-dark:    #141414;
       --c-mid:     #3A3A3C;
       --c-muted:   #6B6B6E;
-      --c-light:   #F2F2F7;
+      --c-light:   #F0F0F0;
       --c-white:   #FFFFFF;
-      --c-gold:    #C9952A;
-      --c-gold-lt: #E8B84B;
-      --c-gold-dk: #A07820;
+      /* Accent = pure white on dark, pure black on light */
+      --c-accent:  #FFFFFF;
+      --c-accent2: #D4D4D4;
+      /* Keep gold only for WA button — everywhere else B&W */
+      --c-gold:    #FFFFFF;
+      --c-gold-lt: #E8E8E8;
+      --c-gold-dk: #B0B0B0;
       --c-border:  rgba(255,255,255,0.10);
       --radius-sm: 8px;
       --radius-md: 16px;
       --radius-lg: 24px;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-      --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
-      --shadow-lg: 0 20px 60px rgba(0,0,0,0.16);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.10);
+      --shadow-md: 0 8px 32px rgba(0,0,0,0.18);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.25);
       --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
     }
 
@@ -65,19 +69,21 @@
     }
     .navbar__logo-mark {
       width: 40px; height: 40px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--c-gold-lt), var(--c-gold-dk));
+      background: var(--c-white);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 18px; color: var(--c-white);
-      letter-spacing: -0.5px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; color: var(--c-black);
+      letter-spacing: 0.5px;
     }
     .navbar__logo-text {
       display: flex; flex-direction: column; line-height: 1.1;
     }
     .navbar__logo-text span:first-child {
-      font-size: 16px; font-weight: 700; color: var(--c-white); letter-spacing: 0.5px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; color: var(--c-white); letter-spacing: 2px;
     }
     .navbar__logo-text span:last-child {
-      font-size: 11px; font-weight: 400; color: var(--c-gold); text-transform: uppercase; letter-spacing: 1.5px;
+      font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 2px;
     }
     .navbar__nav { display: flex; align-items: center; gap: 32px; }
     .navbar__link {
@@ -115,8 +121,8 @@
     .hero__bg {
       position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,149,42,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(201,149,42,0.06) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(255,255,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(255,255,255,0.02) 0%, transparent 50%);
     }
     .hero__grid-lines {
       position: absolute; inset: 0; z-index: 0; opacity: 0.04;
@@ -131,20 +137,22 @@
     }
     .hero__eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--c-gold); margin-bottom: 20px;
+      font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); margin-bottom: 20px;
     }
     .hero__eyebrow::before {
-      content: ''; display: block; width: 28px; height: 2px; background: var(--c-gold);
+      content: ''; display: block; width: 28px; height: 1px; background: rgba(255,255,255,0.30);
     }
     .hero__title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(36px, 4.5vw, 60px);
-      font-weight: 800; line-height: 1.1; letter-spacing: -1px;
-      color: var(--c-white); margin-bottom: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 6.5vw, 88px);
+      font-weight: 400; line-height: 0.95; letter-spacing: 2px;
+      color: var(--c-white); margin-bottom: 24px;
+      text-transform: uppercase;
     }
     .hero__title em {
-      font-style: normal; color: var(--c-gold);
+      font-style: normal; color: var(--c-white);
+      border-bottom: 3px solid rgba(255,255,255,0.35);
     }
     .hero__subtitle {
       font-size: 17px; font-weight: 400; line-height: 1.7;
@@ -153,13 +161,13 @@
     .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
     .btn-primary {
       display: inline-flex; align-items: center; gap: 10px;
-      background: linear-gradient(135deg, var(--c-gold-lt), var(--c-gold-dk));
-      color: var(--c-white); font-size: 15px; font-weight: 700;
+      background: var(--c-white);
+      color: var(--c-black); font-size: 15px; font-weight: 700;
       padding: 15px 28px; border-radius: 50px;
-      transition: transform var(--transition), box-shadow var(--transition);
-      box-shadow: 0 4px 20px rgba(201,149,42,0.35);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,149,42,0.50); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,0.25); background: #E8E8E8; }
     .btn-outline {
       display: inline-flex; align-items: center; gap: 8px;
       border: 1.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.80);
@@ -174,7 +182,8 @@
     }
     .hero__stat { display: flex; flex-direction: column; }
     .hero__stat-num {
-      font-size: 32px; font-weight: 800; color: var(--c-gold); line-height: 1;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px; font-weight: 400; color: var(--c-white); line-height: 1; letter-spacing: 1px;
     }
     .hero__stat-label {
       font-size: 12px; color: rgba(255,255,255,0.50); margin-top: 4px; line-height: 1.3;
@@ -192,14 +201,14 @@
     }
     .hero__image-placeholder::before {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(201,149,42,0.08) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
     }
     .hero__image-placeholder-icon {
       width: 64px; height: 64px; border-radius: 16px;
-      background: rgba(201,149,42,0.15);
+      background: rgba(255,255,255,0.08);
       display: flex; align-items: center; justify-content: center;
     }
-    .hero__image-placeholder-icon svg { color: var(--c-gold); }
+    .hero__image-placeholder-icon svg { color: rgba(255,255,255,0.35); }
     .hero__image-placeholder p {
       font-size: 13px; color: rgba(255,255,255,0.35); text-align: center; max-width: 200px;
     }
@@ -240,8 +249,8 @@
     }
     .clients__logo:hover { color: rgba(255,255,255,0.70); }
     .clients__logo-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--c-gold); margin-right: 10px; flex-shrink: 0;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); margin-right: 10px; flex-shrink: 0;
     }
 
     /* ─── SECTION SHARED ───────────────────────────────────────────── */
@@ -250,20 +259,22 @@
     .section--black { background: var(--c-black); }
     .section--light { background: var(--c-light); }
     .section__tag {
-      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
-      text-transform: uppercase; color: var(--c-gold);
-      background: rgba(201,149,42,0.10); border: 1px solid rgba(201,149,42,0.20);
+      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--c-mid);
+      background: transparent; border: 1px solid rgba(0,0,0,0.18);
       padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
     }
-    .section__tag--dark { color: var(--c-white); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+    .section__tag--dark { color: rgba(255,255,255,0.45); background: transparent; border-color: rgba(255,255,255,0.15); }
     .section__title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 3.5vw, 46px);
-      font-weight: 800; line-height: 1.15; letter-spacing: -0.5px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(38px, 4.5vw, 62px);
+      font-weight: 400; line-height: 1.0; letter-spacing: 2px;
       color: var(--c-dark); margin-bottom: 16px;
+      text-transform: uppercase;
     }
     .section__title--white { color: var(--c-white); }
-    .section__title em { font-style: normal; color: var(--c-gold); }
+    .section__title em { font-style: normal; color: var(--c-dark); border-bottom: 3px solid rgba(0,0,0,0.20); }
+    .section__title--white em { color: var(--c-white); border-bottom: 3px solid rgba(255,255,255,0.30); }
     .section__sub {
       font-size: 17px; color: var(--c-muted); line-height: 1.7; max-width: 540px;
     }
@@ -286,18 +297,18 @@
     }
     .service-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--c-gold-lt), var(--c-gold-dk));
+      background: var(--c-dark);
       transform: scaleX(0); transform-origin: left;
       transition: transform var(--transition);
     }
-    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(201,149,42,0.20); }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(0,0,0,0.18); }
     .service-card:hover::before { transform: scaleX(1); }
     .service-card__icon {
       width: 52px; height: 52px; border-radius: 14px;
-      background: rgba(201,149,42,0.10); display: flex; align-items: center; justify-content: center;
+      background: var(--c-light); display: flex; align-items: center; justify-content: center;
       margin-bottom: 20px;
     }
-    .service-card__icon svg { color: var(--c-gold); }
+    .service-card__icon svg { color: var(--c-dark); }
     .service-card__title {
       font-size: 16px; font-weight: 700; color: var(--c-dark); margin-bottom: 10px;
     }
@@ -305,8 +316,8 @@
       font-size: 14px; color: var(--c-muted); line-height: 1.6;
     }
     .service-card__tag {
-      display: inline-block; margin-top: 16px; font-size: 11px; font-weight: 600;
-      color: var(--c-gold); letter-spacing: 0.5px; text-transform: uppercase;
+      display: inline-block; margin-top: 16px; font-size: 10px; font-weight: 600;
+      color: var(--c-muted); letter-spacing: 1px; text-transform: uppercase;
     }
 
     /* ─── WHY US ───────────────────────────────────────────────────── */
@@ -318,8 +329,10 @@
     }
     .why-item { display: flex; gap: 20px; }
     .why-item__num {
-      font-size: 13px; font-weight: 800; color: var(--c-gold);
-      min-width: 32px; padding-top: 3px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; font-weight: 400; color: rgba(255,255,255,0.25);
+      letter-spacing: 1px;
+      min-width: 36px; padding-top: 1px;
     }
     .why-item__content {}
     .why-item__title {
@@ -333,17 +346,17 @@
       border-radius: var(--radius-lg); padding: 40px;
     }
     .why__quote {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px; font-weight: 700; line-height: 1.4;
-      color: var(--c-white); margin-bottom: 24px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; font-weight: 400; line-height: 1.2; letter-spacing: 1px;
+      color: var(--c-white); margin-bottom: 24px; text-transform: uppercase;
     }
-    .why__quote em { font-style: italic; color: var(--c-gold); }
+    .why__quote em { font-style: normal; color: rgba(255,255,255,0.55); }
     .why__warning {
-      background: rgba(201,149,42,0.08); border: 1px solid rgba(201,149,42,0.20);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
       border-radius: var(--radius-sm); padding: 16px 20px;
-      font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6;
+      font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6;
     }
-    .why__warning strong { color: var(--c-gold-lt); }
+    .why__warning strong { color: rgba(255,255,255,0.85); }
 
     /* ─── PORTFOLIO ────────────────────────────────────────────────── */
     .portfolio__grid {
@@ -372,7 +385,7 @@
     .portfolio-item:hover .portfolio-item__overlay { opacity: 1; }
     .portfolio-item__label {
       font-size: 13px; font-weight: 600; color: var(--c-white);
-      background: rgba(201,149,42,0.85);
+      background: rgba(0,0,0,0.75);
       padding: 4px 12px; border-radius: 50px;
     }
     /* Placeholder style for portfolio items without images */
@@ -389,27 +402,48 @@
     /* ─── LOCATIONS ────────────────────────────────────────────────── */
     .locations__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .location-card {
-      background: var(--c-white); border: 1px solid rgba(0,0,0,0.07);
-      border-radius: var(--radius-md); padding: 36px 32px;
+      background: var(--c-white); border: 1px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius-md); overflow: hidden;
       transition: box-shadow var(--transition);
     }
     .location-card:hover { box-shadow: var(--shadow-md); }
+    .location-card__info { padding: 32px 32px 24px; }
     .location-card__badge {
-      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--c-gold);
-      background: rgba(201,149,42,0.10); border: 1px solid rgba(201,149,42,0.20);
+      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--c-mid);
+      background: transparent; border: 1px solid rgba(0,0,0,0.15);
       padding: 4px 12px; border-radius: 50px; margin-bottom: 20px;
     }
     .location-card__name {
-      font-size: 22px; font-weight: 800; color: var(--c-dark); margin-bottom: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px; font-weight: 400; letter-spacing: 2px;
+      color: var(--c-dark); margin-bottom: 8px; text-transform: uppercase;
     }
     .location-card__address {
-      font-size: 14px; color: var(--c-muted); margin-bottom: 20px; line-height: 1.5;
+      font-size: 14px; color: var(--c-muted); margin-bottom: 16px; line-height: 1.6;
     }
-    .location-card__zones { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .location-card__zones { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
     .zone-tag {
-      font-size: 12px; font-weight: 500; color: var(--c-mid);
+      font-size: 11px; font-weight: 500; color: var(--c-mid);
       background: var(--c-light); border-radius: 50px; padding: 4px 12px;
+    }
+    .location-card__map {
+      width: 100%; height: 240px; border: 0;
+      display: block; background: #e8e8e8;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      filter: grayscale(20%);
+      transition: filter var(--transition);
+    }
+    .location-card:hover .location-card__map { filter: grayscale(0%); }
+    .location-card__map-placeholder {
+      width: 100%; height: 220px;
+      background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .location-card__map-placeholder svg { color: rgba(0,0,0,0.20); }
+    .location-card__map-placeholder p {
+      font-size: 12px; color: rgba(0,0,0,0.35); text-align: center; line-height: 1.4;
     }
 
     /* ─── CTA FINAL ────────────────────────────────────────────────── */
@@ -421,16 +455,16 @@
     }
     .cta-section__bg {
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,149,42,0.10) 0%, transparent 70%);
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
     }
     .cta-section__inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
     .cta-section__title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(30px, 4vw, 50px);
-      font-weight: 800; color: var(--c-white); line-height: 1.15;
-      margin-bottom: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(44px, 5.5vw, 72px);
+      font-weight: 400; color: var(--c-white); line-height: 1.0; letter-spacing: 2px;
+      margin-bottom: 20px; text-transform: uppercase;
     }
-    .cta-section__title em { font-style: normal; color: var(--c-gold); }
+    .cta-section__title em { font-style: normal; color: rgba(255,255,255,0.55); }
     .cta-section__sub {
       font-size: 17px; color: rgba(255,255,255,0.55); margin-bottom: 40px; line-height: 1.7;
     }
@@ -603,8 +637,8 @@
               <span class="hero__stat-label">Locales<br>estratégicos</span>
             </div>
             <div class="hero__stat">
-              <span class="hero__stat-num">B2B</span>
-              <span class="hero__stat-label">Enfoque<br>corporativo</span>
+              <span class="hero__stat-num">10+</span>
+              <span class="hero__stat-label">Marcas<br>líderes</span>
             </div>
           </div>
         </div>
@@ -762,7 +796,7 @@
           <div class="why__warning">
             <strong>Riesgo que Gatti elimina:</strong> Archivos mal preparados, colores fuera de perfil, materiales de baja durabilidad. Con nuestro asesoramiento técnico, el trabajo sale bien a la primera.
           </div>
-          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20consultar%20sobre%20un%20proyecto" class="btn-wa" target="_blank" rel="noopener" style="margin-top:28px; display:inline-flex;">
+          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20consultar%20sobre%20un%20proyecto" class="btn-wa" target="_blank" rel="noopener" style="margin-top:28px; display:inline-flex; background:#25D366;">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
@@ -831,26 +865,58 @@
       </div>
       <div class="locations__grid">
         <div class="location-card fade-up">
-          <span class="location-card__badge">Sucursal CABA</span>
-          <h3 class="location-card__name">Microcentro</h3>
-          <p class="location-card__address">Ciudad Autónoma de Buenos Aires<br>Zona Bancaria y Corporativa</p>
-          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20consulto%20por%20la%20sucursal%20de%20Microcentro" class="btn-primary" target="_blank" rel="noopener" style="font-size:14px; padding:12px 22px; margin-top:8px; display:inline-flex;">
-            Contactar esta sucursal
-          </a>
+          <div class="location-card__info">
+            <span class="location-card__badge">Sucursal CABA</span>
+            <h3 class="location-card__name">Microcentro</h3>
+            <p class="location-card__address">
+              <strong style="font-size:15px; color:var(--c-dark);">Bolívar 196</strong><br>
+              Microcentro, Ciudad Autónoma de Buenos Aires
+            </p>
+            <a href="https://maps.google.com/?q=Bolivar+196,+Buenos+Aires,+Argentina" target="_blank" rel="noopener" style="font-size:12px; color:var(--c-muted); display:inline-flex; align-items:center; gap:5px; margin-bottom:20px; text-decoration:none;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Ver en Google Maps
+            </a>
+            <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20consulto%20por%20la%20sucursal%20de%20Microcentro%20(Bol%C3%ADvar%20196)" class="btn-primary" target="_blank" rel="noopener" style="font-size:14px; padding:12px 22px; color:var(--c-black); display:inline-flex;">
+              Contactar esta sucursal
+            </a>
+          </div>
+          <iframe
+            class="location-card__map"
+            src="https://maps.google.com/maps?q=Bolivar+196,+Buenos+Aires,+Argentina&output=embed&hl=es&z=16"
+            width="100%" height="220" style="border:0;" allowfullscreen=""
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación Gatti Microcentro — Bolívar 196, CABA">
+          </iframe>
         </div>
         <div class="location-card fade-up">
-          <span class="location-card__badge">Sucursal GBA Oeste</span>
-          <h3 class="location-card__name">Ituzaingó</h3>
-          <p class="location-card__address">Zona Oeste del Gran Buenos Aires<br>Atendemos toda la región</p>
-          <div class="location-card__zones">
-            <span class="zone-tag">Ituzaingó</span>
-            <span class="zone-tag">Castelar</span>
-            <span class="zone-tag">Padua</span>
-            <span class="zone-tag">Morón</span>
+          <div class="location-card__info">
+            <span class="location-card__badge">Sucursal GBA Oeste</span>
+            <h3 class="location-card__name">Ituzaingó</h3>
+            <p class="location-card__address">
+              <strong style="font-size:15px; color:var(--c-dark);">Juncal 255</strong><br>
+              B1714 Ituzaingó, Provincia de Buenos Aires
+            </p>
+            <a href="https://maps.google.com/?q=Juncal+255,+Ituzaingo,+Buenos+Aires,+Argentina" target="_blank" rel="noopener" style="font-size:12px; color:var(--c-muted); display:inline-flex; align-items:center; gap:5px; margin-bottom:12px; text-decoration:none;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Ver en Google Maps
+            </a>
+            <div class="location-card__zones">
+              <span class="zone-tag">Ituzaingó</span>
+              <span class="zone-tag">Castelar</span>
+              <span class="zone-tag">Padua</span>
+              <span class="zone-tag">Morón</span>
+            </div>
+            <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20consulto%20por%20la%20sucursal%20de%20Ituzaing%C3%B3%20(Juncal%20255)" class="btn-primary" target="_blank" rel="noopener" style="font-size:14px; padding:12px 22px; color:var(--c-black); display:inline-flex;">
+              Contactar esta sucursal
+            </a>
           </div>
-          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20consulto%20por%20la%20sucursal%20de%20Ituzaing%C3%B3" class="btn-primary" target="_blank" rel="noopener" style="font-size:14px; padding:12px 22px; margin-top:20px; display:inline-flex;">
-            Contactar esta sucursal
-          </a>
+          <iframe
+            class="location-card__map"
+            src="https://maps.google.com/maps?q=Juncal+255,+Ituzaingo,+Buenos+Aires,+Argentina&output=embed&hl=es&z=16"
+            width="100%" height="220" style="border:0;" allowfullscreen=""
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación Gatti Ituzaingó — Juncal 255">
+          </iframe>
         </div>
       </div>
     </div>
@@ -912,8 +978,16 @@
                 WhatsApp: 11 6505-4124
               </a>
             </li>
-            <li>Microcentro — CABA</li>
-            <li>Ituzaingó — GBA Oeste</li>
+            <li>
+              <a href="https://maps.google.com/?q=Bolivar+196,+Buenos+Aires,+Argentina" target="_blank" rel="noopener">
+                Bolívar 196, Microcentro CABA
+              </a>
+            </li>
+            <li>
+              <a href="https://maps.google.com/?q=Juncal+255,+Ituzaingo,+Buenos+Aires" target="_blank" rel="noopener">
+                Juncal 255, Ituzaingó GBA
+              </a>
+            </li>
           </ul>
         </div>
       </div>
