@@ -375,8 +375,7 @@
     /* ─── PORTFOLIO ────────────────────────────────────────────────── */
     .portfolio__grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto auto;
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
     }
     .portfolio-item {
@@ -605,6 +604,7 @@
       .why__grid { grid-template-columns: 1fr; gap: 28px; }
       .portfolio__grid { grid-template-columns: 1fr 1fr; }
       .portfolio-item--wide { grid-column: span 2; }
+      .portfolio-item { aspect-ratio: 4/3; }
     }
     @media (max-width: 768px) {
       .navbar__nav { display: none; }
@@ -616,6 +616,7 @@
       .footer__bottom { flex-direction: column; gap: 12px; text-align: center; }
       .portfolio__grid { grid-template-columns: 1fr; }
       .portfolio-item--wide { grid-column: span 1; }
+      .portfolio-item { aspect-ratio: 4/3; }
     }
     @media (max-width: 480px) {
       .section { padding: 72px 0; }
@@ -876,50 +877,69 @@
         <p class="section__sub">Resultados reales para marcas reales. Cada trabajo es una declaración de calidad y compromiso.</p>
       </div>
       <div class="portfolio__grid">
-        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="1" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 1">
-          <div class="portfolio-item__hint" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Clic para cargar foto</span>
-          </div>
+        <!-- Fila 1: item1(ancho) + item2 + item3 = 4 cols -->
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="1" role="button" tabindex="0" aria-label="Clic para cargar foto 1">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
-          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo destacado</span></div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 1</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="2" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 2">
-          <div class="portfolio-item__hint" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Clic para cargar foto</span>
-          </div>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="2" role="button" tabindex="0" aria-label="Clic para cargar foto 2">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 2</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 3">
-          <div class="portfolio-item__hint" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Clic para cargar foto</span>
-          </div>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto 3">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 3</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="4" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 4">
-          <div class="portfolio-item__hint" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Clic para cargar foto</span>
-          </div>
+        <!-- Fila 2: item4 + item5 + item6(ancho) = 4 cols -->
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="4" role="button" tabindex="0" aria-label="Clic para cargar foto 4">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 4"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 4</span></div>
         </div>
-        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="5" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 5">
-          <div class="portfolio-item__hint" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Clic para cargar foto</span>
-          </div>
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="5" role="button" tabindex="0" aria-label="Clic para cargar foto 5">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 5</span></div>
+        </div>
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="6" role="button" tabindex="0" aria-label="Clic para cargar foto 6">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 6"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 6</span></div>
+        </div>
+        <!-- Fila 3: item7(ancho) + item8(ancho) = 4 cols -->
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="7" role="button" tabindex="0" aria-label="Clic para cargar foto 7">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 7</span></div>
+        </div>
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="8" role="button" tabindex="0" aria-label="Clic para cargar foto 8">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 8"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 8</span></div>
+        </div>
+        <!-- Fila 4: item9 + item10 (centrados con 2 cols cada uno) -->
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="9" role="button" tabindex="0" aria-label="Clic para cargar foto 9">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 9"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 9</span></div>
+        </div>
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="10" role="button" tabindex="0" aria-label="Clic para cargar foto 10">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 10"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 10</span></div>
         </div>
       </div>
     </div>
@@ -1347,6 +1367,8 @@
 
     // Para resetear todo:
     // localStorage.clear(); location.reload();
+    // Para resetear solo el portfolio:
+    // for(let i=1;i<=10;i++) localStorage.removeItem(`gatti_portfolio_${i}`); location.reload();
   </script>
 </body>
 </html>
