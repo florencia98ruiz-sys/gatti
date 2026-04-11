@@ -447,6 +447,22 @@
     .portfolio-item--loaded:hover .reposition-badge,
     .hero--draggable:hover .reposition-badge { opacity: 1; }
 
+    /* Botón "Cambiar foto" — aparece al hover sobre imagen cargada */
+    .change-photo-btn {
+      position: absolute; bottom: 10px; right: 10px; z-index: 6;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(6px);
+      border: none; border-radius: 50px;
+      color: #111; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.5px; padding: 7px 14px;
+      cursor: pointer; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .change-photo-btn:hover { background: #fff; transform: scale(1.04); }
+    .portfolio-item--loaded:hover .change-photo-btn,
+    .hero--draggable:hover .change-photo-btn { opacity: 1; pointer-events: auto; }
+
     /* Hero draggable */
     .hero--draggable .hero__photo { cursor: grab; }
     .hero--draggable .hero__photo:active { cursor: grabbing; }
@@ -655,6 +671,7 @@
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__grid-lines" aria-hidden="true"></div>
     <div class="reposition-badge" aria-hidden="true" style="top:80px; right:24px; z-index:10;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+    <button class="change-photo-btn" id="hero-change-btn" aria-label="Cambiar foto del hero" style="bottom:24px; right:24px; z-index:10;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
     <div class="container">
       <div class="hero__inner">
         <div class="hero__content">
@@ -865,6 +882,7 @@
             <span>Clic para cargar foto</span>
           </div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo destacado</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="2" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 2">
@@ -873,6 +891,7 @@
             <span>Clic para cargar foto</span>
           </div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 2</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="3" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 3">
@@ -881,6 +900,7 @@
             <span>Clic para cargar foto</span>
           </div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 3</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="4" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 4">
@@ -889,6 +909,7 @@
             <span>Clic para cargar foto</span>
           </div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 4"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 4</span></div>
         </div>
         <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="5" role="button" tabindex="0" aria-label="Clic para cargar foto de trabajo 5">
@@ -897,6 +918,7 @@
             <span>Clic para cargar foto</span>
           </div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
+          <button class="change-photo-btn" aria-label="Cambiar foto 5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 5</span></div>
         </div>
       </div>
@@ -1244,6 +1266,24 @@
     enableReposition(document.querySelector('.hero__photo'), STORAGE_KEY);
     document.querySelector('.hero').classList.add('hero--draggable');
 
+    // Botón "Cambiar foto" del hero
+    const heroChangeBtn = document.getElementById('hero-change-btn');
+    const heroFileInput = document.createElement('input');
+    heroFileInput.type = 'file'; heroFileInput.accept = 'image/*'; heroFileInput.style.display = 'none';
+    document.body.appendChild(heroFileInput);
+    heroChangeBtn.addEventListener('click', e => { e.stopPropagation(); heroFileInput.value = ''; heroFileInput.click(); });
+    heroFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const dataUrl = ev.target.result;
+        applyHeroImage(dataUrl);
+        localStorage.setItem(STORAGE_KEY, dataUrl);
+        enableReposition(document.querySelector('.hero__photo'), STORAGE_KEY);
+      };
+      reader.readAsDataURL(file);
+    });
+
     function applyPortfolioImage(item, dataUrl) {
       item.style.backgroundImage = `url('${dataUrl}')`;
       item.classList.add('portfolio-item--loaded');
@@ -1252,6 +1292,18 @@
       item.removeAttribute('tabindex');
       const id = item.dataset.portfolioId;
       enableReposition(item, `gatti_portfolio_${id}`);
+
+      // Conectar botón "Cambiar foto" de este item
+      const btn = item.querySelector('.change-photo-btn');
+      if (btn && !btn.dataset.connected) {
+        btn.dataset.connected = '1';
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          activePortfolioItem = item;
+          portfolioFileInput.value = '';
+          portfolioFileInput.click();
+        });
+      }
     }
 
     // Cargar imágenes guardadas al iniciar
