@@ -113,30 +113,39 @@
     /* ─── HERO ─────────────────────────────────────────────────────── */
     .hero {
       min-height: 100svh;
-      background: var(--c-black) url('hero-gatti.jpg') center center / cover no-repeat;
+      background: var(--c-black);
       display: flex; align-items: center;
       position: relative; overflow: hidden;
       padding: 120px 0 80px;
     }
+    /* Foto de fondo difuminada — div dedicado porque filter:blur no aplica a background-image */
+    .hero__photo {
+      position: absolute;
+      inset: -30px; /* margen extra para que los bordes del blur no queden en blanco */
+      z-index: 0;
+      background: url('hero-gatti.jpg') center center / cover no-repeat;
+      filter: blur(7px);
+      transform: scale(1.06); /* compensa la expansión del blur en los bordes */
+    }
     .hero__bg {
-      position: absolute; inset: 0; z-index: 0;
-      /* Overlay oscuro sobre la foto para mantener legibilidad */
+      position: absolute; inset: 0; z-index: 1;
+      /* Overlay oscuro encima de la foto difuminada */
       background: linear-gradient(
-        135deg,
-        rgba(0,0,0,0.80) 0%,
-        rgba(0,0,0,0.55) 50%,
-        rgba(0,0,0,0.70) 100%
+        160deg,
+        rgba(0,0,0,0.82) 0%,
+        rgba(0,0,0,0.65) 50%,
+        rgba(0,0,0,0.78) 100%
       );
     }
     .hero__grid-lines {
-      position: absolute; inset: 0; z-index: 0; opacity: 0.03;
+      position: absolute; inset: 0; z-index: 1; opacity: 0.025;
       background-image:
         linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
       background-size: 60px 60px;
     }
     .hero__inner {
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
       display: grid; grid-template-columns: 1fr; gap: 0; align-items: center;
       max-width: 760px;
     }
@@ -604,6 +613,7 @@
   <!-- ─── HERO ────────────────────────────────────────────────────── -->
   <main>
   <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__photo" aria-hidden="true"></div>
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__grid-lines" aria-hidden="true"></div>
     <div class="container">
