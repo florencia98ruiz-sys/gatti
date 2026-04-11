@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gatti Gráfica | Soluciones Gráficas Integrales para Empresas</title>
+  <meta name="description" content="Más de 60 años de experiencia en producción gráfica de alta calidad. Cartelería, papelería institucional, vinilos y más. Microcentro y Zona Oeste." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FAFAFA;
+      color: #1C1C1E;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── DESIGN TOKENS ────────────────────────────────────────────── */
+    :root {
+      --c-black:   #0D0D0D;
+      --c-dark:    #1C1C1E;
+      --c-mid:     #3A3A3C;
+      --c-muted:   #6B6B6E;
+      --c-light:   #F2F2F7;
+      --c-white:   #FFFFFF;
+      --c-gold:    #C9952A;
+      --c-gold-lt: #E8B84B;
+      --c-gold-dk: #A07820;
+      --c-border:  rgba(255,255,255,0.10);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.16);
+      --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ─── UTILITIES ────────────────────────────────────────────────── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+    /* ─── NAVBAR ───────────────────────────────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border-bottom: 1px solid var(--c-border);
+      transition: background var(--transition);
+    }
+    .navbar__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .navbar__logo {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .navbar__logo-mark {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--c-gold-lt), var(--c-gold-dk));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 18px; color: var(--c-white);
+      letter-spacing: -0.5px;
+    }
+    .navbar__logo-text {
+      display: flex; flex-direction: column; line-height: 1.1;
+    }
+    .navbar__logo-text span:first-child {
+      font-size: 16px; font-weight: 700; color: var(--c-white); letter-spacing: 0.5px;
+    }
+    .navbar__logo-text span:last-child {
+      font-size: 11px; font-weight: 400; color: var(--c-gold); text-transform: uppercase; letter-spacing: 1.5px;
+    }
+    .navbar__nav { display: flex; align-items: center; gap: 32px; }
+    .navbar__link {
+      font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.70);
+      transition: color var(--transition);
+    }
+    .navbar__link:hover { color: var(--c-white); }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #25D366; color: var(--c-white);
+      font-size: 14px; font-weight: 600;
+      padding: 10px 20px; border-radius: 50px;
+      transition: transform var(--transition), box-shadow var(--transition);
+      white-space: nowrap;
+    }
+    .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,211,102,0.40); }
+    .btn-wa svg { flex-shrink: 0; }
+    .navbar__hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+    .navbar__hamburger span {
+      display: block; width: 24px; height: 2px; background: var(--c-white);
+      border-radius: 2px; transition: var(--transition);
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      background: var(--c-black);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 120px 0 80px;
+    }
+    .hero__bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,149,42,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(201,149,42,0.06) 0%, transparent 50%);
+    }
+    .hero__grid-lines {
+      position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+      background-image:
+        linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero__inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--c-gold); margin-bottom: 20px;
+    }
+    .hero__eyebrow::before {
+      content: ''; display: block; width: 28px; height: 2px; background: var(--c-gold);
+    }
+    .hero__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -1px;
+      color: var(--c-white); margin-bottom: 20px;
+    }
+    .hero__title em {
+      font-style: normal; color: var(--c-gold);
+    }
+    .hero__subtitle {
+      font-size: 17px; font-weight: 400; line-height: 1.7;
+      color: rgba(255,255,255,0.65); margin-bottom: 36px; max-width: 480px;
+    }
+    .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--c-gold-lt), var(--c-gold-dk));
+      color: var(--c-white); font-size: 15px; font-weight: 700;
+      padding: 15px 28px; border-radius: 50px;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px rgba(201,149,42,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,149,42,0.50); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.80);
+      font-size: 15px; font-weight: 500;
+      padding: 14px 24px; border-radius: 50px;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.60); color: var(--c-white); }
+    .hero__stats {
+      display: flex; gap: 36px; margin-top: 48px; padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+    .hero__stat { display: flex; flex-direction: column; }
+    .hero__stat-num {
+      font-size: 32px; font-weight: 800; color: var(--c-gold); line-height: 1;
+    }
+    .hero__stat-label {
+      font-size: 12px; color: rgba(255,255,255,0.50); margin-top: 4px; line-height: 1.3;
+    }
+    .hero__visual {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .hero__image-placeholder {
+      aspect-ratio: 4/3; border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 12px;
+      position: relative; overflow: hidden;
+    }
+    .hero__image-placeholder::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,149,42,0.08) 0%, transparent 60%);
+    }
+    .hero__image-placeholder-icon {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: rgba(201,149,42,0.15);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero__image-placeholder-icon svg { color: var(--c-gold); }
+    .hero__image-placeholder p {
+      font-size: 13px; color: rgba(255,255,255,0.35); text-align: center; max-width: 200px;
+    }
+
+    /* ─── CLIENTS STRIP ────────────────────────────────────────────── */
+    .clients {
+      background: var(--c-dark);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 36px 0;
+      overflow: hidden;
+    }
+    .clients__label {
+      text-align: center; font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+      text-transform: uppercase; color: rgba(255,255,255,0.30); margin-bottom: 28px;
+    }
+    .clients__track-wrap { overflow: hidden; position: relative; }
+    .clients__track-wrap::before, .clients__track-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2;
+    }
+    .clients__track-wrap::before { left: 0; background: linear-gradient(90deg, var(--c-dark), transparent); }
+    .clients__track-wrap::after  { right: 0; background: linear-gradient(270deg, var(--c-dark), transparent); }
+    .clients__track {
+      display: flex; gap: 56px; width: max-content;
+      animation: scroll-logos 28s linear infinite;
+    }
+    .clients__track:hover { animation-play-state: paused; }
+    @keyframes scroll-logos {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .clients__logo {
+      display: flex; align-items: center;
+      font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.35);
+      white-space: nowrap; letter-spacing: 0.5px;
+      transition: color var(--transition);
+      padding: 8px 0;
+    }
+    .clients__logo:hover { color: rgba(255,255,255,0.70); }
+    .clients__logo-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--c-gold); margin-right: 10px; flex-shrink: 0;
+    }
+
+    /* ─── SECTION SHARED ───────────────────────────────────────────── */
+    .section { padding: 96px 0; }
+    .section--dark { background: var(--c-dark); }
+    .section--black { background: var(--c-black); }
+    .section--light { background: var(--c-light); }
+    .section__tag {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--c-gold);
+      background: rgba(201,149,42,0.10); border: 1px solid rgba(201,149,42,0.20);
+      padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+    }
+    .section__tag--dark { color: var(--c-white); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+    .section__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 800; line-height: 1.15; letter-spacing: -0.5px;
+      color: var(--c-dark); margin-bottom: 16px;
+    }
+    .section__title--white { color: var(--c-white); }
+    .section__title em { font-style: normal; color: var(--c-gold); }
+    .section__sub {
+      font-size: 17px; color: var(--c-muted); line-height: 1.7; max-width: 540px;
+    }
+    .section__sub--white { color: rgba(255,255,255,0.60); }
+    .section__head { margin-bottom: 56px; }
+    .section__head--center { text-align: center; }
+    .section__head--center .section__sub { margin: 0 auto; }
+
+    /* ─── SERVICES ─────────────────────────────────────────────────── */
+    .services__grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .service-card {
+      background: var(--c-white);
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--c-gold-lt), var(--c-gold-dk));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(201,149,42,0.20); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card__icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: rgba(201,149,42,0.10); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .service-card__icon svg { color: var(--c-gold); }
+    .service-card__title {
+      font-size: 16px; font-weight: 700; color: var(--c-dark); margin-bottom: 10px;
+    }
+    .service-card__desc {
+      font-size: 14px; color: var(--c-muted); line-height: 1.6;
+    }
+    .service-card__tag {
+      display: inline-block; margin-top: 16px; font-size: 11px; font-weight: 600;
+      color: var(--c-gold); letter-spacing: 0.5px; text-transform: uppercase;
+    }
+
+    /* ─── WHY US ───────────────────────────────────────────────────── */
+    .why {
+      background: var(--c-black);
+    }
+    .why__grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px 60px;
+    }
+    .why-item { display: flex; gap: 20px; }
+    .why-item__num {
+      font-size: 13px; font-weight: 800; color: var(--c-gold);
+      min-width: 32px; padding-top: 3px;
+    }
+    .why-item__content {}
+    .why-item__title {
+      font-size: 17px; font-weight: 700; color: var(--c-white); margin-bottom: 8px;
+    }
+    .why-item__desc {
+      font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7;
+    }
+    .why__side {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg); padding: 40px;
+    }
+    .why__quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700; line-height: 1.4;
+      color: var(--c-white); margin-bottom: 24px;
+    }
+    .why__quote em { font-style: italic; color: var(--c-gold); }
+    .why__warning {
+      background: rgba(201,149,42,0.08); border: 1px solid rgba(201,149,42,0.20);
+      border-radius: var(--radius-sm); padding: 16px 20px;
+      font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6;
+    }
+    .why__warning strong { color: var(--c-gold-lt); }
+
+    /* ─── PORTFOLIO ────────────────────────────────────────────────── */
+    .portfolio__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .portfolio-item {
+      border-radius: var(--radius-md); overflow: hidden;
+      position: relative; background: #e8e8e8;
+      aspect-ratio: 4/3;
+    }
+    .portfolio-item--wide { grid-column: span 2; aspect-ratio: 16/9; }
+    .portfolio-item__img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .portfolio-item:hover .portfolio-item__img { transform: scale(1.04); }
+    .portfolio-item__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 50%);
+      display: flex; align-items: flex-end; padding: 20px;
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .portfolio-item:hover .portfolio-item__overlay { opacity: 1; }
+    .portfolio-item__label {
+      font-size: 13px; font-weight: 600; color: var(--c-white);
+      background: rgba(201,149,42,0.85);
+      padding: 4px 12px; border-radius: 50px;
+    }
+    /* Placeholder style for portfolio items without images */
+    .portfolio-item--placeholder {
+      background: linear-gradient(135deg, #e8e8e8 0%, #d4d4d4 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px;
+    }
+    .portfolio-item--placeholder p {
+      font-size: 12px; color: rgba(0,0,0,0.35); text-align: center; padding: 0 20px;
+    }
+    .portfolio-item--placeholder svg { color: rgba(0,0,0,0.20); }
+
+    /* ─── LOCATIONS ────────────────────────────────────────────────── */
+    .locations__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .location-card {
+      background: var(--c-white); border: 1px solid rgba(0,0,0,0.07);
+      border-radius: var(--radius-md); padding: 36px 32px;
+      transition: box-shadow var(--transition);
+    }
+    .location-card:hover { box-shadow: var(--shadow-md); }
+    .location-card__badge {
+      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--c-gold);
+      background: rgba(201,149,42,0.10); border: 1px solid rgba(201,149,42,0.20);
+      padding: 4px 12px; border-radius: 50px; margin-bottom: 20px;
+    }
+    .location-card__name {
+      font-size: 22px; font-weight: 800; color: var(--c-dark); margin-bottom: 8px;
+    }
+    .location-card__address {
+      font-size: 14px; color: var(--c-muted); margin-bottom: 20px; line-height: 1.5;
+    }
+    .location-card__zones { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .zone-tag {
+      font-size: 12px; font-weight: 500; color: var(--c-mid);
+      background: var(--c-light); border-radius: 50px; padding: 4px 12px;
+    }
+
+    /* ─── CTA FINAL ────────────────────────────────────────────────── */
+    .cta-section {
+      background: var(--c-black);
+      padding: 100px 0;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-section__bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,149,42,0.10) 0%, transparent 70%);
+    }
+    .cta-section__inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+    .cta-section__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 50px);
+      font-weight: 800; color: var(--c-white); line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .cta-section__title em { font-style: normal; color: var(--c-gold); }
+    .cta-section__sub {
+      font-size: 17px; color: rgba(255,255,255,0.55); margin-bottom: 40px; line-height: 1.7;
+    }
+    .cta-section__contact {
+      font-size: 13px; color: rgba(255,255,255,0.40); margin-top: 20px;
+    }
+    .cta-section__contact strong { color: rgba(255,255,255,0.60); }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────── */
+    .footer {
+      background: #080808;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 48px 0 32px;
+    }
+    .footer__inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer__brand-desc {
+      font-size: 14px; color: rgba(255,255,255,0.40); margin-top: 16px; line-height: 1.7;
+      max-width: 300px;
+    }
+    .footer__col-title {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.30); margin-bottom: 16px;
+    }
+    .footer__list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer__list li a, .footer__list li {
+      font-size: 14px; color: rgba(255,255,255,0.50);
+      transition: color var(--transition);
+    }
+    .footer__list li a:hover { color: rgba(255,255,255,0.85); }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.06); padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer__copy {
+      font-size: 13px; color: rgba(255,255,255,0.25);
+    }
+    .footer__made {
+      font-size: 12px; color: rgba(255,255,255,0.20);
+    }
+
+    /* ─── FLOATING WA ──────────────────────────────────────────────── */
+    .float-wa {
+      position: fixed; bottom: 28px; right: 28px; z-index: 99;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.50);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+    .float-wa:hover { transform: scale(1.10); box-shadow: 0 8px 32px rgba(37,211,102,0.65); }
+    .float-wa__pulse {
+      position: absolute; width: 100%; height: 100%; border-radius: 50%;
+      background: #25D366; opacity: 0.35;
+      animation: pulse 2s ease-out infinite;
+    }
+    @keyframes pulse {
+      0%   { transform: scale(1); opacity: 0.35; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .services__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .hero__inner { grid-template-columns: 1fr; }
+      .hero__visual { display: none; }
+      .why__grid { grid-template-columns: 1fr; gap: 28px; }
+      .portfolio__grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-item--wide { grid-column: span 2; }
+    }
+    @media (max-width: 768px) {
+      .navbar__nav { display: none; }
+      .navbar__hamburger { display: flex; }
+      .hero__stats { flex-wrap: wrap; gap: 24px; }
+      .services__grid { grid-template-columns: 1fr; }
+      .locations__grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer__bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .portfolio__grid { grid-template-columns: 1fr; }
+      .portfolio-item--wide { grid-column: span 1; }
+    }
+    @media (max-width: 480px) {
+      .section { padding: 72px 0; }
+      .btn-primary { font-size: 14px; padding: 13px 22px; }
+    }
+
+    /* ─── SCROLL ANIMATIONS ────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1; transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ──────────────────────────────────────────────────── -->
+  <header class="navbar" role="banner">
+    <div class="container">
+      <nav class="navbar__inner" aria-label="Navegación principal">
+        <a href="#" class="navbar__logo" aria-label="Gatti Gráfica - Inicio">
+          <div class="navbar__logo-mark">G</div>
+          <div class="navbar__logo-text">
+            <span>GATTI</span>
+            <span>Gráfica</span>
+          </div>
+        </a>
+        <div class="navbar__nav">
+          <a href="#servicios" class="navbar__link">Servicios</a>
+          <a href="#por-que-gatti" class="navbar__link">Por qué Gatti</a>
+          <a href="#trabajos" class="navbar__link">Trabajos</a>
+          <a href="#ubicaciones" class="navbar__link">Sucursales</a>
+          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20cotizar%20un%20proyecto" class="btn-wa" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Cotizar ahora
+          </a>
+        </div>
+        <button class="navbar__hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ─── HERO ────────────────────────────────────────────────────── -->
+  <main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__grid-lines" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <div class="hero__eyebrow">Gatti Gráfica — Desde 1964</div>
+          <h1 class="hero__title" id="hero-title">
+            Soluciones Gráficas Integrales para Empresas con Respaldo de <em>+60 Años</em>
+          </h1>
+          <p class="hero__subtitle">
+            Producción visual de alta calidad en Microcentro y Zona Oeste. Trabajamos con materiales premium y tecnología ecosolvente para resultados de nivel corporativo.
+          </p>
+          <div class="hero__actions">
+            <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20cotizar%20un%20proyecto%20gr%C3%A1fico" class="btn-primary" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              Cotizar mi proyecto
+            </a>
+            <a href="#trabajos" class="btn-outline">
+              Ver trabajos
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+          <div class="hero__stats">
+            <div class="hero__stat">
+              <span class="hero__stat-num">+60</span>
+              <span class="hero__stat-label">Años en el<br>mercado</span>
+            </div>
+            <div class="hero__stat">
+              <span class="hero__stat-num">2</span>
+              <span class="hero__stat-label">Locales<br>estratégicos</span>
+            </div>
+            <div class="hero__stat">
+              <span class="hero__stat-num">B2B</span>
+              <span class="hero__stat-label">Enfoque<br>corporativo</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero__visual" aria-hidden="true">
+          <!-- Reemplazar con imagen real -->
+          <div class="hero__image-placeholder">
+            <div class="hero__image-placeholder-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <p>Foto principal de trabajos o locales — pendiente de carga</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CLIENTS ──────────────────────────────────────────────────── -->
+  <section class="clients" aria-labelledby="clients-label">
+    <div class="clients__label" id="clients-label">Marcas que confían en Gatti</div>
+    <div class="clients__track-wrap">
+      <div class="clients__track" aria-label="Listado de clientes">
+        <!-- Set 1 -->
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Red Bull</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Sport Club</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Kommo</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Chinito</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Min. Desarrollo Social</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>SISIAC</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Municipalidad Ituzaingó</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Liserar</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Exanet</span>
+        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Reason</span>
+        <!-- Set 2 (duplicado para loop infinito) -->
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Red Bull</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Sport Club</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Kommo</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Chinito</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Min. Desarrollo Social</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>SISIAC</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Municipalidad Ituzaingó</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Liserar</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Exanet</span>
+        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Reason</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SERVICES ────────────────────────────────────────────────── -->
+  <section class="section" id="servicios" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section__head">
+        <span class="section__tag">Soluciones Corporativas</span>
+        <h2 class="section__title" id="services-title">
+          Todo lo que tu empresa<br>necesita para <em>destacar</em>
+        </h2>
+        <p class="section__sub">Producción gráfica de alta calidad con asesoramiento técnico en cada etapa del proyecto.</p>
+      </div>
+      <div class="services__grid">
+        <article class="service-card fade-up">
+          <div class="service-card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
+          <h3 class="service-card__title">Cartelería y Gran Formato</h3>
+          <p class="service-card__desc">Banners, lonas y carteles de alto impacto para locales comerciales, eventos corporativos y espacios públicos.</p>
+          <span class="service-card__tag">Ecosolvente premium</span>
+        </article>
+        <article class="service-card fade-up">
+          <div class="service-card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3 class="service-card__title">Papelería Institucional</h3>
+          <p class="service-card__desc">Folletos, tarjetas personales, carpetas institucionales y hojas membretadas. Imagen corporativa coherente y profesional.</p>
+          <span class="service-card__tag">Terminaciones de alta precisión</span>
+        </article>
+        <article class="service-card fade-up">
+          <div class="service-card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/>
+            </svg>
+          </div>
+          <h3 class="service-card__title">Vinilos y Decoración</h3>
+          <p class="service-card__desc">Vinilos comerciales para vidrieras, oficinas y flotas de vehículos. Transformamos espacios con diseño de alta durabilidad.</p>
+          <span class="service-card__tag">Interior y exterior</span>
+        </article>
+        <article class="service-card fade-up">
+          <div class="service-card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h3 class="service-card__title">Asesoramiento Técnico</h3>
+          <p class="service-card__desc">Revisión y optimización de archivos para garantizar que la impresión sea perfecta. Evitamos errores antes de que sean costosos.</p>
+          <span class="service-card__tag">Cero errores en producción</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WHY GATTI ────────────────────────────────────────────────── -->
+  <section class="section why section--black" id="por-que-gatti" aria-labelledby="why-title">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: 1fr 420px; gap: 64px; align-items: start;">
+        <div>
+          <div class="section__head">
+            <span class="section__tag section__tag--dark">Por qué elegirnos</span>
+            <h2 class="section__title section__title--white" id="why-title">
+              Calidad que se nota.<br>Plazos que se <em>cumplen.</em>
+            </h2>
+            <p class="section__sub section__sub--white">En Gatti no competimos por precio. Competimos por resultado.</p>
+          </div>
+          <div class="why__grid">
+            <article class="why-item fade-up">
+              <span class="why-item__num">01</span>
+              <div class="why-item__content">
+                <h3 class="why-item__title">Experiencia Comprobada</h3>
+                <p class="why-item__desc">Más de 6 décadas resolviendo trabajos complejos para marcas líderes. Sabemos anticipar problemas antes de que aparezcan.</p>
+              </div>
+            </article>
+            <article class="why-item fade-up">
+              <span class="why-item__num">02</span>
+              <div class="why-item__content">
+                <h3 class="why-item__title">Doble Presencia</h3>
+                <p class="why-item__desc">Locales físicos en Microcentro CABA y GBA Oeste (Ituzaingó). Mayor cercanía, logística más ágil y atención presencial.</p>
+              </div>
+            </article>
+            <article class="why-item fade-up">
+              <span class="why-item__num">03</span>
+              <div class="why-item__content">
+                <h3 class="why-item__title">Materiales Premium</h3>
+                <p class="why-item__desc">Uso de tintas ecosolventes y sustratos de primera calidad. El resultado es duradero, vívido y profesional.</p>
+              </div>
+            </article>
+            <article class="why-item fade-up">
+              <span class="why-item__num">04</span>
+              <div class="why-item__content">
+                <h3 class="why-item__title">Atención Personalizada</h3>
+                <p class="why-item__desc">Acompañamiento profesional en cada etapa: desde la revisión del archivo hasta la entrega final en tu local.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="why__side fade-up">
+          <p class="why__quote">
+            <em>"No hay segundas oportunidades en un evento o lanzamiento."</em>
+          </p>
+          <p style="font-size:15px; color:rgba(255,255,255,0.55); line-height:1.7; margin-bottom:24px;">
+            La visibilidad de tu empresa en el momento exacto define la percepción de tu marca. Un error en producción se paga caro — en tiempo, en plata y en reputación.
+          </p>
+          <div class="why__warning">
+            <strong>Riesgo que Gatti elimina:</strong> Archivos mal preparados, colores fuera de perfil, materiales de baja durabilidad. Con nuestro asesoramiento técnico, el trabajo sale bien a la primera.
+          </div>
+          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20consultar%20sobre%20un%20proyecto" class="btn-wa" target="_blank" rel="noopener" style="margin-top:28px; display:inline-flex;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PORTFOLIO ────────────────────────────────────────────────── -->
+  <section class="section section--light" id="trabajos" aria-labelledby="portfolio-title">
+    <div class="container">
+      <div class="section__head section__head--center">
+        <span class="section__tag">Casos Reales</span>
+        <h2 class="section__title" id="portfolio-title">
+          Trabajos que hablan<br>por <em>sí solos</em>
+        </h2>
+        <p class="section__sub">Resultados reales para marcas reales. Cada trabajo es una declaración de calidad y compromiso.</p>
+      </div>
+      <div class="portfolio__grid">
+        <!-- Los items con clase --placeholder se reemplazan con <img> real -->
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 1 — pendiente de carga">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p>Foto de trabajo destacado<br>Ej: cartelería Red Bull / Sport Club</p>
+        </div>
+        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 2 — pendiente de carga">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p>Foto de trabajo<br>Vinilos / Vidrieras</p>
+        </div>
+        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 3 — pendiente de carga">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p>Foto de trabajo<br>Papelería institucional</p>
+        </div>
+        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 4 — pendiente de carga">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p>Foto de trabajo<br>Gran formato / Evento</p>
+        </div>
+        <div class="portfolio-item portfolio-item--placeholder" role="img" aria-label="Foto de trabajo 5 — pendiente de carga">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p>Foto de trabajo<br>Flota vehicular</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── LOCATIONS ────────────────────────────────────────────────── -->
+  <section class="section" id="ubicaciones" aria-labelledby="locations-title">
+    <div class="container">
+      <div class="section__head section__head--center">
+        <span class="section__tag">Sucursales</span>
+        <h2 class="section__title" id="locations-title">
+          Cerca tuyo donde<br><em>más lo necesitás</em>
+        </h2>
+        <p class="section__sub">Dos locales estratégicos para mayor cercanía y logística ágil en CABA y el Gran Buenos Aires.</p>
+      </div>
+      <div class="locations__grid">
+        <div class="location-card fade-up">
+          <span class="location-card__badge">Sucursal CABA</span>
+          <h3 class="location-card__name">Microcentro</h3>
+          <p class="location-card__address">Ciudad Autónoma de Buenos Aires<br>Zona Bancaria y Corporativa</p>
+          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20consulto%20por%20la%20sucursal%20de%20Microcentro" class="btn-primary" target="_blank" rel="noopener" style="font-size:14px; padding:12px 22px; margin-top:8px; display:inline-flex;">
+            Contactar esta sucursal
+          </a>
+        </div>
+        <div class="location-card fade-up">
+          <span class="location-card__badge">Sucursal GBA Oeste</span>
+          <h3 class="location-card__name">Ituzaingó</h3>
+          <p class="location-card__address">Zona Oeste del Gran Buenos Aires<br>Atendemos toda la región</p>
+          <div class="location-card__zones">
+            <span class="zone-tag">Ituzaingó</span>
+            <span class="zone-tag">Castelar</span>
+            <span class="zone-tag">Padua</span>
+            <span class="zone-tag">Morón</span>
+          </div>
+          <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20consulto%20por%20la%20sucursal%20de%20Ituzaing%C3%B3" class="btn-primary" target="_blank" rel="noopener" style="font-size:14px; padding:12px 22px; margin-top:20px; display:inline-flex;">
+            Contactar esta sucursal
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA FINAL ─────────────────────────────────────────────────── -->
+  <section class="cta-section" aria-labelledby="cta-title">
+    <div class="cta-section__bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="cta-section__inner">
+        <h2 class="cta-section__title" id="cta-title">
+          ¿Listo para darle<br>a tu marca la visibilidad<br>que <em>merece?</em>
+        </h2>
+        <p class="cta-section__sub">
+          Escribinos ahora y Cami te asesora sin compromiso. Te damos una cotización precisa para tu proyecto.
+        </p>
+        <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20cotizar%20un%20proyecto%20gr%C3%A1fico%20con%20Gatti" class="btn-primary" target="_blank" rel="noopener" style="font-size:17px; padding:18px 36px; border-radius:50px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Cotizar por WhatsApp — 11 6505-4124
+        </a>
+        <p class="cta-section__contact">Atención a cargo de <strong>Cami</strong> · Respuesta rápida en horario comercial</p>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ─── FOOTER ──────────────────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <a href="#" class="navbar__logo" aria-label="Gatti Gráfica">
+            <div class="navbar__logo-mark">G</div>
+            <div class="navbar__logo-text">
+              <span>GATTI</span>
+              <span>Gráfica</span>
+            </div>
+          </a>
+          <p class="footer__brand-desc">
+            Más de 60 años produciendo soluciones gráficas de alta calidad para empresas, PYMEs y marcas líderes. Microcentro y Zona Oeste.
+          </p>
+        </div>
+        <div>
+          <p class="footer__col-title">Servicios</p>
+          <ul class="footer__list">
+            <li>Cartelería y Gran Formato</li>
+            <li>Papelería Institucional</li>
+            <li>Vinilos y Decoración</li>
+            <li>Asesoramiento Técnico</li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Contacto</p>
+          <ul class="footer__list">
+            <li>
+              <a href="https://wa.me/5491165054124" target="_blank" rel="noopener">
+                WhatsApp: 11 6505-4124
+              </a>
+            </li>
+            <li>Microcentro — CABA</li>
+            <li>Ituzaingó — GBA Oeste</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">&copy; 2024 Gatti Gráfica. Todos los derechos reservados.</p>
+        <p class="footer__made">Diseño web profesional</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── FLOATING WA BUTTON ──────────────────────────────────────── -->
+  <a href="https://wa.me/5491165054124?text=Hola%20Cami%2C%20quiero%20cotizar%20un%20proyecto%20gr%C3%A1fico" class="float-wa" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <div class="float-wa__pulse" aria-hidden="true"></div>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ─── SCRIPTS ──────────────────────────────────────────────────── -->
+  <script>
+    // Scroll animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Stagger children if they have fade-up
+          const children = entry.target.querySelectorAll('.fade-up');
+          children.forEach((child, i) => {
+            setTimeout(() => child.classList.add('visible'), i * 100);
+          });
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.navbar__hamburger');
+    const nav = document.querySelector('.navbar__nav');
+    if (hamburger && nav) {
+      hamburger.addEventListener('click', () => {
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        nav.style.display = expanded ? 'none' : 'flex';
+        if (!expanded) {
+          nav.style.flexDirection = 'column';
+          nav.style.position = 'absolute';
+          nav.style.top = '68px';
+          nav.style.left = '0'; nav.style.right = '0';
+          nav.style.background = 'rgba(13,13,13,0.97)';
+          nav.style.padding = '20px 24px';
+          nav.style.gap = '20px';
+          nav.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+        }
+      });
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
