@@ -8,10 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <style>
     /* ─── RESET & BASE ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1235,103 +1231,52 @@
       });
     });
 
-    // ════════════════════════════════════════════════════════════════
-    // FIREBASE CONFIG — Reemplazá con los datos de tu proyecto:
-    // 1. Entrá a https://console.firebase.google.com
-    // 2. Creá un proyecto gratuito
-    // 3. En "Compilación" activá: Realtime Database + Storage (en modo prueba)
-    // 4. Ir a Configuración del proyecto → Tu app web → copiá el config y pegalo acá:
-    // ════════════════════════════════════════════════════════════════
-    const firebaseConfig = {
-      apiKey:            "AIzaSyAoVKxNdKLOeQZR4zQcJ-fAkW-K5_mlINY",
-      authDomain:        "gatti-grafica.firebaseapp.com",
-      databaseURL:       "https://gatti-grafica-default-rtdb.firebaseio.com",
-      projectId:         "gatti-grafica",
-      storageBucket:     "gatti-grafica.firebasestorage.app",
-      messagingSenderId: "115730989801",
-      appId:             "1:115730989801:web:c4452cbe40a85dc057e678"
-    };
-
-    // Detectar si Firebase está configurado
-    const USE_FIREBASE = !firebaseConfig.apiKey.startsWith('PEGAR');
-    let fbDb = null, fbStorage = null;
-
-    if (USE_FIREBASE) {
-      try {
-        firebase.initializeApp(firebaseConfig);
-        fbDb      = firebase.database();
-        fbStorage = firebase.storage();
-      } catch(e) { console.warn('Firebase error:', e); }
-    }
-
-    // ─── HELPERS ────────────────────────────────────────────────────
-    function showSpinner(el) {
-      const ov = document.createElement('div');
-      ov.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:20;border-radius:inherit;';
-      const sp = document.createElement('div');
-      sp.style.cssText = 'width:32px;height:32px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;';
-      ov.appendChild(sp);
-      el.style.position = 'relative';
-      el.appendChild(ov);
-      return ov;
-    }
-
-    async function uploadFile(file, path) {
-      if (USE_FIREBASE && fbStorage) {
-        const ref = fbStorage.ref(`gatti/${path}`);
-        await ref.put(file);
-        return await ref.getDownloadURL();
-      }
-      return new Promise(resolve => {
-        const r = new FileReader();
-        r.onload = e => resolve(e.target.result);
-        r.readAsDataURL(file);
-      });
-    }
-
-    async function saveUrl(key, url) {
-      if (USE_FIREBASE && fbDb) {
-        await fbDb.ref(`gatti/${key}`).set(url);
-      } else {
-        try { localStorage.setItem(`gatti_${key}`, url); } catch(e) {}
-      }
-    }
-
-    async function loadAllUrls() {
-      if (USE_FIREBASE && fbDb) {
-        const snap = await fbDb.ref('gatti').get();
-        return snap.val() || {};
-      }
-      const result = {};
-      const h = localStorage.getItem('gatti_hero_image');
-      if (h) result['hero_image'] = h;
-      for (let i = 1; i <= 10; i++) {
-        const p = localStorage.getItem(`gatti_portfolio_${i}`);
-        if (p) result[`portfolio_${i}`] = p;
-        const l = localStorage.getItem(`gatti_logo_${i}`);
-        if (l) result[`logo_${i}`] = l;
-      }
-      return result;
-    }
-
-    // ─── HERO ───────────────────────────────────────────────────────
+    // ─── HERO IMAGE ─────────────────────────────────────────────────
     const heroPhoto = document.querySelector('.hero__photo');
 
-    function applyHeroImage(url) {
-      heroPhoto.style.backgroundImage = `url('${url}')`;
+    function applyHeroImage(dataUrl) {
+      heroPhoto.style.backgroundImage = `url('${dataUrl}')`;
       heroPhoto.style.backgroundSize = 'cover';
       heroPhoto.style.backgroundPosition = 'center';
     }
 
-    // ─── PORTFOLIO ──────────────────────────────────────────────────
+    const savedHero = localStorage.getItem('gatti_hero_image');
+    if (savedHero) {
+      applyHeroImage(savedHero);
+    } else {
+      const hint = document.createElement('div');
+      hint.id = 'hero-image-hint';
+      const heroInput = document.createElement('input');
+      heroInput.type = 'file'; heroInput.accept = 'image/*';
+      heroInput.id = 'hero-file-input'; heroInput.style.display = 'none';
+      const hintBtn = document.createElement('div');
+      hintBtn.style.cssText = 'position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.10);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.20);border-radius:50px;padding:10px 20px;cursor:pointer;font-size:13px;color:#fff;font-family:Inter,sans-serif;white-space:nowrap;';
+      hintBtn.textContent = '📷 Clic para cargar foto del local';
+      hintBtn.addEventListener('click', () => heroInput.click());
+      hint.appendChild(hintBtn);
+      hint.appendChild(heroInput);
+      document.querySelector('.hero').appendChild(hint);
+      heroInput.addEventListener('change', function(e) {
+        const file = e.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          applyHeroImage(ev.target.result);
+          try { localStorage.setItem('gatti_hero_image', ev.target.result); } catch(err) {}
+          hint.remove();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ─── PORTFOLIO IMAGES ───────────────────────────────────────────
     const portfolioFileInput = document.createElement('input');
     portfolioFileInput.type = 'file'; portfolioFileInput.accept = 'image/*';
     portfolioFileInput.style.display = 'none';
     document.body.appendChild(portfolioFileInput);
     let activePortfolioItem = null;
 
-    function applyPortfolioImage(item, url) {
-      item.style.backgroundImage = `url('${url}')`;
+    function applyPortfolioImage(item, dataUrl) {
+      item.style.backgroundImage = `url('${dataUrl}')`;
       item.style.backgroundSize = 'cover';
       item.style.backgroundPosition = 'center';
       item.style.cursor = 'pointer';
@@ -1343,6 +1288,8 @@
     }
 
     document.querySelectorAll('[data-portfolio-id]').forEach(item => {
+      const saved = localStorage.getItem(`gatti_portfolio_${item.dataset.portfolioId}`);
+      if (saved) applyPortfolioImage(item, saved);
       item.addEventListener('click', () => {
         activePortfolioItem = item;
         portfolioFileInput.value = '';
@@ -1350,37 +1297,37 @@
       });
     });
 
-    portfolioFileInput.addEventListener('change', async function(e) {
+    portfolioFileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file || !activePortfolioItem) return;
       const item = activePortfolioItem;
       activePortfolioItem = null;
-      const id = item.dataset.portfolioId;
-      const spinner = showSpinner(item);
-      try {
-        const url = await uploadFile(file, `portfolio_${id}`);
-        applyPortfolioImage(item, url);
-        await saveUrl(`portfolio_${id}`, url);
-      } catch(err) {
-        console.error(err);
-        alert('Error al subir la imagen. Verificá la conexión e intentá de nuevo.');
-      }
-      spinner.remove();
+      const reader = new FileReader();
+      reader.onload = ev => {
+        applyPortfolioImage(item, ev.target.result);
+        try { localStorage.setItem(`gatti_portfolio_${item.dataset.portfolioId}`, ev.target.result); } catch(err) {}
+      };
+      reader.readAsDataURL(file);
     });
 
-    // ─── LOGOS ──────────────────────────────────────────────────────
+    // ─── LOGOS DE MARCAS ────────────────────────────────────────────
     const logoFileInput = document.createElement('input');
     logoFileInput.type = 'file'; logoFileInput.accept = 'image/*';
     logoFileInput.style.display = 'none';
     document.body.appendChild(logoFileInput);
     let activeLogoId = null;
 
-    function applyLogo(id, url) {
+    function applyLogo(id, dataUrl) {
       document.querySelectorAll(`[data-logo-id="${id}"], [data-logo-id-mirror="${id}"]`).forEach(el => {
-        el.innerHTML = `<img src="${url}" alt="" class="clients__logo-img">`;
+        el.innerHTML = `<img src="${dataUrl}" alt="" class="clients__logo-img">`;
         el.classList.remove('clients__logo--empty');
         el.removeAttribute('role'); el.removeAttribute('tabindex');
       });
+    }
+
+    for (let i = 1; i <= 10; i++) {
+      const saved = localStorage.getItem(`gatti_logo_${i}`);
+      if (saved) applyLogo(i, saved);
     }
 
     const logoTrack = document.querySelector('.clients__track');
@@ -1404,88 +1351,23 @@
         });
       });
     }
+    bindLogoClicks();
 
-    logoFileInput.addEventListener('change', async function(e) {
+    logoFileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file || !activeLogoId) return;
       const id = activeLogoId;
       activeLogoId = null;
-      const logoEl = document.querySelector(`[data-logo-id="${id}"]`);
-      const spinner = logoEl ? showSpinner(logoEl) : null;
-      try {
-        const url = await uploadFile(file, `logo_${id}`);
-        applyLogo(id, url);
-        await saveUrl(`logo_${id}`, url);
+      const reader = new FileReader();
+      reader.onload = ev => {
+        applyLogo(id, ev.target.result);
+        try { localStorage.setItem(`gatti_logo_${id}`, ev.target.result); } catch(err) {}
         bindLogoClicks();
-      } catch(err) {
-        console.error(err);
-        alert('Error al subir el logo. Intentá de nuevo.');
-      }
-      if (spinner) spinner.remove();
+      };
+      reader.readAsDataURL(file);
     });
 
-    // ─── INICIALIZAR — cargar todas las imágenes guardadas ──────────
-    (async () => {
-      const urls = await loadAllUrls();
-
-      // Hero
-      if (urls['hero_image']) {
-        applyHeroImage(urls['hero_image']);
-      } else {
-        const heroInput = document.createElement('input');
-        heroInput.type = 'file'; heroInput.accept = 'image/*';
-        heroInput.style.display = 'none';
-        heroInput.id = 'hero-file-input';
-        const heroSection = document.querySelector('.hero');
-        heroSection.appendChild(heroInput);
-
-        const hint = document.createElement('div');
-        hint.id = 'hero-image-hint';
-        const hintBtn = document.createElement('div');
-        hintBtn.style.cssText = 'position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.10);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.20);border-radius:50px;padding:10px 20px;cursor:pointer;font-size:13px;color:#fff;font-family:Inter,sans-serif;white-space:nowrap;';
-        hintBtn.textContent = '📷 Clic para cargar foto del local';
-        hintBtn.addEventListener('click', () => heroInput.click());
-        hint.appendChild(hintBtn);
-        heroSection.appendChild(hint);
-
-        heroInput.addEventListener('change', async function(e) {
-          const file = e.target.files[0]; if (!file) return;
-          const spinner = showSpinner(heroSection);
-          try {
-            const url = await uploadFile(file, 'hero_image');
-            applyHeroImage(url);
-            await saveUrl('hero_image', url);
-            hint.remove();
-          } catch(err) {
-            console.error(err);
-            alert('Error al subir la imagen.');
-          }
-          spinner.remove();
-        });
-      }
-
-      // Portfolio
-      for (let i = 1; i <= 10; i++) {
-        const url = urls[`portfolio_${i}`];
-        if (url) {
-          const item = document.querySelector(`[data-portfolio-id="${i}"]`);
-          if (item) applyPortfolioImage(item, url);
-        }
-      }
-
-      // Logos
-      for (let i = 1; i <= 10; i++) {
-        const url = urls[`logo_${i}`];
-        if (url) applyLogo(i, url);
-      }
-
-      bindLogoClicks();
-    })();
-
-    // Para borrar todo y empezar de cero:
-    // Con Firebase: firebase.database().ref('gatti').remove(); firebase.storage().ref('gatti').listAll().then(r => r.items.forEach(i => i.delete()));
-    // Sin Firebase: localStorage.clear(); location.reload();
+    // Para resetear todo: localStorage.clear(); location.reload();
   </script>
 </body>
 </html>
-
