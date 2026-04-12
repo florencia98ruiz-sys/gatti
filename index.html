@@ -11,7 +11,7 @@
   <style>
     /* ─── RESET & BASE ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       font-family: 'Inter', sans-serif;
       background: #FFFFFF;
@@ -256,15 +256,38 @@
     }
     .clients__logo {
       display: flex; align-items: center;
-      font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.35);
-      white-space: nowrap; letter-spacing: 0.5px;
-      transition: color var(--transition);
+      white-space: nowrap;
       padding: 8px 0;
     }
-    .clients__logo:hover { color: rgba(255,255,255,0.70); }
-    .clients__logo-dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: rgba(255,255,255,0.25); margin-right: 10px; flex-shrink: 0;
+    .clients__logo-img {
+      height: 34px;
+      width: auto;
+      max-width: 110px;
+      object-fit: contain;
+      opacity: 0.75;
+      transition: opacity var(--transition);
+      display: block;
+      user-select: none;
+    }
+    .clients__logo:hover .clients__logo-img { opacity: 1; }
+
+    /* Placeholder vacío para logos sin cargar */
+    .clients__logo--empty {
+      cursor: pointer;
+      opacity: 1;
+    }
+    .clients__logo-placeholder {
+      display: flex; align-items: center; justify-content: center;
+      width: 80px; height: 34px;
+      border: 1.5px dashed rgba(255,255,255,0.20);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.25);
+      font-size: 18px; font-weight: 300;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .clients__logo--empty:hover .clients__logo-placeholder {
+      border-color: rgba(255,255,255,0.50);
+      color: rgba(255,255,255,0.60);
     }
 
     /* ─── SECTION SHARED ───────────────────────────────────────────── */
@@ -610,41 +633,76 @@
     }
 
     /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+
+    /* Tablet landscape */
     @media (max-width: 1024px) {
       .services__grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio__grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; }
     }
+
+    /* Tablet portrait */
     @media (max-width: 900px) {
       .why__grid { grid-template-columns: 1fr; gap: 28px; }
-      .portfolio__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
+      .why__side { margin-top: 0; }
+
+      /* Portfolio: 2 columnas, sin colocación explícita */
+      .portfolio__grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 180px;
+      }
+      [data-portfolio-id] { grid-column: auto; grid-row: auto; }
       .portfolio-item--wide { grid-column: span 2; }
-      .portfolio-item--tall { grid-row: span 2; }
-      [data-portfolio-id="1"]  { grid-column: 1 / span 2; grid-row: auto; }
-      [data-portfolio-id="2"]  { grid-column: auto; grid-row: auto; }
-      [data-portfolio-id="3"]  { grid-column: auto; grid-row: auto / span 2; }
-      [data-portfolio-id="4"]  { grid-column: auto; grid-row: auto; }
-      [data-portfolio-id="5"]  { grid-column: auto; grid-row: auto; }
-      [data-portfolio-id="6"]  { grid-column: auto; grid-row: auto; }
-      [data-portfolio-id="7"]  { grid-column: 1 / span 2; grid-row: auto; }
-      [data-portfolio-id="8"]  { grid-column: 1 / span 2; grid-row: auto; }
-      [data-portfolio-id="9"]  { grid-column: 1 / span 2; grid-row: auto; }
-      [data-portfolio-id="10"] { grid-column: 1 / span 2; grid-row: auto; }
+      .portfolio-item--tall { grid-row: span 2; grid-column: auto; }
     }
+
+    /* Mobile */
     @media (max-width: 768px) {
       .navbar__nav { display: none; }
       .navbar__hamburger { display: flex; }
-      .hero__stats { flex-wrap: wrap; gap: 24px; }
+
+      .hero { padding: 100px 0 60px; min-height: 100svh; }
+      .hero__title { font-size: clamp(28px, 7vw, 42px); }
+      .hero__subtitle { font-size: 15px; }
+      .hero__stats { flex-wrap: wrap; gap: 20px; margin-top: 32px; padding-top: 24px; }
+      .hero__stat-num { font-size: 26px; }
+
       .services__grid { grid-template-columns: 1fr; }
       .locations__grid { grid-template-columns: 1fr; }
+
+      /* Portfolio móvil: 1 columna, sin colocación explícita */
+      .portfolio__grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 220px;
+      }
+      [data-portfolio-id] { grid-column: 1 !important; grid-row: auto !important; }
+      .portfolio-item--wide,
+      .portfolio-item--tall { grid-column: 1 !important; grid-row: auto !important; }
+
+      .location-card { padding: 28px 20px; }
+      .why__side { padding: 28px 20px; }
+
       .footer__inner { grid-template-columns: 1fr; gap: 32px; }
       .footer__bottom { flex-direction: column; gap: 12px; text-align: center; }
-      .portfolio__grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
-      .portfolio-item--wide, .portfolio-item--tall { grid-column: 1; grid-row: auto; }
-      [data-portfolio-id] { grid-column: 1; grid-row: auto; }
-    }
-    @media (max-width: 480px) {
+
       .section { padding: 72px 0; }
-      .btn-primary { font-size: 14px; padding: 13px 22px; }
+      .section__title { font-size: clamp(24px, 6vw, 36px); }
     }
+
+    /* Mobile pequeño */
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .section { padding: 56px 0; }
+      .btn-primary { font-size: 14px; padding: 13px 20px; }
+      .hero__actions { flex-direction: column; align-items: flex-start; }
+      .navbar__inner { height: 60px; }
+      .portfolio__grid { grid-auto-rows: 200px; gap: 10px; }
+    }
+
+    /* ─── OCULTAR CONTROLES DE EDICIÓN ────────────────────────────── */
+    .reposition-badge,
+    .change-photo-btn,
+    #hero-change-btn,
+    #hero-image-hint { display: none !important; }
 
     /* ─── SCROLL ANIMATIONS ────────────────────────────────────────── */
     .fade-up {
@@ -744,28 +802,28 @@
     <div class="clients__label" id="clients-label">Marcas que confían en Gatti</div>
     <div class="clients__track-wrap">
       <div class="clients__track" aria-label="Listado de clientes">
-        <!-- Set 1 -->
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Red Bull</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Sport Club</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Kommo</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Chinito</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Min. Desarrollo Social</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>SISIAC</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Municipalidad Ituzaingó</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Liserar</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Exanet</span>
-        <span class="clients__logo"><span class="clients__logo-dot" aria-hidden="true"></span>Reason</span>
-        <!-- Set 2 (duplicado para loop infinito) -->
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Red Bull</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Sport Club</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Kommo</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Chinito</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Min. Desarrollo Social</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>SISIAC</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Municipalidad Ituzaingó</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Liserar</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Exanet</span>
-        <span class="clients__logo" aria-hidden="true"><span class="clients__logo-dot"></span>Reason</span>
+        <!-- Set 1 — clickeables -->
+        <span class="clients__logo clients__logo--empty" data-logo-id="1" role="button" tabindex="0" aria-label="Clic para cargar logo Red Bull"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="2" role="button" tabindex="0" aria-label="Clic para cargar logo Sport Club"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="3" role="button" tabindex="0" aria-label="Clic para cargar logo Kommo"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="4" role="button" tabindex="0" aria-label="Clic para cargar logo Chinito"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="5" role="button" tabindex="0" aria-label="Clic para cargar logo Ministerio"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="6" role="button" tabindex="0" aria-label="Clic para cargar logo SISIAC"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="7" role="button" tabindex="0" aria-label="Clic para cargar logo Municipalidad Ituzaingó"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="8" role="button" tabindex="0" aria-label="Clic para cargar logo Liserar"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="9" role="button" tabindex="0" aria-label="Clic para cargar logo Exanet"><span class="clients__logo-placeholder">+</span></span>
+        <span class="clients__logo clients__logo--empty" data-logo-id="10" role="button" tabindex="0" aria-label="Clic para cargar logo Reason"><span class="clients__logo-placeholder">+</span></span>
+        <!-- Set 2 — duplicado automático (se sincroniza por JS) -->
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="1"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="2"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="3"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="4"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="5"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="6"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="7"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="8"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="9"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
+        <span class="clients__logo" aria-hidden="true" data-logo-id-mirror="10"><span class="clients__logo-placeholder" style="opacity:0.3">+</span></span>
       </div>
     </div>
   </section>
@@ -1392,6 +1450,70 @@
     // localStorage.clear(); location.reload();
     // Para resetear solo el portfolio:
     // for(let i=1;i<=10;i++) localStorage.removeItem(`gatti_portfolio_${i}`); location.reload();
+
+    // ─── LOGOS DE MARCAS ────────────────────────────────────────────
+    const logoFileInput = document.createElement('input');
+    logoFileInput.type = 'file';
+    logoFileInput.accept = 'image/*';
+    logoFileInput.style.display = 'none';
+    document.body.appendChild(logoFileInput);
+
+    let activeLogoId = null;
+
+    function applyLogo(id, dataUrl) {
+      // Aplicar en set 1 (clickeable)
+      const primary = document.querySelector(`[data-logo-id="${id}"]`);
+      if (primary) {
+        primary.innerHTML = `<img src="${dataUrl}" alt="" class="clients__logo-img">`;
+        primary.classList.remove('clients__logo--empty');
+        primary.removeAttribute('role');
+        primary.removeAttribute('tabindex');
+      }
+      // Aplicar en set 2 (espejo)
+      const mirror = document.querySelector(`[data-logo-id-mirror="${id}"]`);
+      if (mirror) {
+        mirror.innerHTML = `<img src="${dataUrl}" alt="" class="clients__logo-img">`;
+      }
+    }
+
+    // Cargar logos guardados al iniciar
+    for (let i = 1; i <= 10; i++) {
+      const saved = localStorage.getItem(`gatti_logo_${i}`);
+      if (saved) applyLogo(i, saved);
+    }
+
+    // Clic en placeholder → abre selector
+    document.querySelectorAll('[data-logo-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        activeLogoId = el.dataset.logoId;
+        logoFileInput.value = '';
+        logoFileInput.click();
+      });
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activeLogoId = el.dataset.logoId;
+          logoFileInput.value = '';
+          logoFileInput.click();
+        }
+      });
+    });
+
+    // Cuando el usuario elige un archivo
+    logoFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file || !activeLogoId) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const dataUrl = ev.target.result;
+        applyLogo(activeLogoId, dataUrl);
+        localStorage.setItem(`gatti_logo_${activeLogoId}`, dataUrl);
+        activeLogoId = null;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Para resetear logos: for(let i=1;i<=10;i++) localStorage.removeItem(`gatti_logo_${i}`); location.reload();
   </script>
 </body>
 </html>
