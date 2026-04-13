@@ -75,6 +75,10 @@
       font-size: 22px; color: var(--c-black);
       letter-spacing: 0.5px;
     }
+    .navbar__logo-img {
+      height: 44px; width: 44px;
+      object-fit: contain;
+    }
     .navbar__logo-text {
       display: flex; flex-direction: column; line-height: 1.1;
     }
@@ -421,6 +425,8 @@
     [data-portfolio-id="8"]  { grid-column: 3 / span 2;  grid-row: 3; }
     [data-portfolio-id="9"]  { grid-column: 1 / span 2;  grid-row: 4; }
     [data-portfolio-id="10"] { grid-column: 3 / span 2;  grid-row: 4; }
+    [data-portfolio-id="11"] { grid-column: 1;            grid-row: 5; }
+    [data-portfolio-id="12"] { grid-column: 2 / span 3;  grid-row: 5; }
     .portfolio-item__img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.5s ease;
@@ -737,9 +743,8 @@
     <div class="container">
       <nav class="navbar__inner" aria-label="Navegación principal">
         <a href="#" class="navbar__logo" aria-label="Gatti Gráfica - Inicio">
-          <div class="navbar__logo-mark">G</div>
+          <img id="navbar-logo-img" src="" class="navbar__logo-img" alt="Gatti" />
           <div class="navbar__logo-text">
-            <span>GATTI</span>
             <span>Gráfica</span>
           </div>
         </a>
@@ -1037,6 +1042,15 @@
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 10"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 10</span></div>
+        </div>
+        <!-- Fila 5 -->
+        <div class="portfolio-item portfolio-item--placeholder" data-portfolio-id="11" aria-label="Trabajo 11">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 11</span></div>
+        </div>
+        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="12" aria-label="Trabajo 12">
+          <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
+          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 12</span></div>
         </div>
       </div>
     </div>
@@ -1360,6 +1374,82 @@
       };
       reader.readAsDataURL(file);
     });
+
+    // Drag una sola vez — para items 11 y 12
+    function enableDragOnce(item) {
+      var id = item.dataset.portfolioId;
+      if (localStorage.getItem('gatti_locked_' + id)) { item.style.cursor = 'default'; return; }
+      var dragging = false, moved = false, startX, startY, startPosX = 50, startPosY = 50;
+      item.style.cursor = 'grab';
+      item.title = 'Arrastra para encuadrar la foto';
+      function getPos() {
+        var p = (item.style.backgroundPosition || '50% 50%').split(' ');
+        return { x: parseFloat(p[0]) || 50, y: parseFloat(p[1]) || 50 };
+      }
+      function onStart(e) {
+        var t = e.touches ? e.touches[0] : e;
+        dragging = true; moved = false;
+        startX = t.clientX; startY = t.clientY;
+        var p = getPos(); startPosX = p.x; startPosY = p.y;
+        item.style.cursor = 'grabbing';
+      }
+      function onMove(e) {
+        if (!dragging) return;
+        var t = e.touches ? e.touches[0] : e;
+        var dx = t.clientX - startX, dy = t.clientY - startY;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+          moved = true; e.preventDefault();
+          var r = item.getBoundingClientRect();
+          var nx = Math.max(0, Math.min(100, startPosX - (dx / r.width)  * 100));
+          var ny = Math.max(0, Math.min(100, startPosY - (dy / r.height) * 100));
+          item.style.backgroundPosition = nx.toFixed(1) + '% ' + ny.toFixed(1) + '%';
+        }
+      }
+      function onEnd() {
+        if (!dragging) return; dragging = false;
+        if (moved) {
+          try {
+            localStorage.setItem('gatti_pos_' + id, item.style.backgroundPosition);
+            localStorage.setItem('gatti_locked_' + id, '1');
+          } catch(e) {}
+          item.removeEventListener('mousedown', onStart);
+          item.removeEventListener('touchstart', onStart);
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onEnd);
+          item.removeEventListener('touchmove', onMove);
+          item.removeEventListener('touchend', onEnd);
+          item.style.cursor = 'default'; item.title = '';
+        } else { item.style.cursor = 'grab'; }
+      }
+      item.addEventListener('mousedown', onStart);
+      item.addEventListener('touchstart', onStart, { passive: true });
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onEnd);
+      item.addEventListener('touchmove', onMove, { passive: false });
+      item.addEventListener('touchend', onEnd);
+    }
+
+    // Cargar items 11 y 12 desde GATTI_IMAGES
+    [11, 12].forEach(function(id) {
+      var item = document.querySelector('[data-portfolio-id="' + id + '"]');
+      if (!item) return;
+      var dataUrl = window.GATTI_IMAGES && window.GATTI_IMAGES['portfolio_' + id];
+      if (dataUrl) {
+        var savedPos = localStorage.getItem('gatti_pos_' + id);
+        item.style.backgroundImage = 'url(' + dataUrl + ')';
+        item.style.backgroundSize = 'cover';
+        item.style.backgroundPosition = savedPos || '50% 50%';
+        item.classList.add('portfolio-item--loaded');
+        item.classList.remove('portfolio-item--placeholder');
+        enableDragOnce(item);
+      }
+    });
+
+    // Cargar logo navbar desde GATTI_IMAGES
+    if (window.GATTI_IMAGES && GATTI_IMAGES.logo_navbar) {
+      var navLogo = document.getElementById('navbar-logo-img');
+      if (navLogo) navLogo.src = GATTI_IMAGES.logo_navbar;
+    }
 
     // Para resetear todo: localStorage.clear(); location.reload();
   </script>
