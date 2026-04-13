@@ -1429,20 +1429,52 @@
       item.addEventListener('touchend', onEnd);
     }
 
-    // Cargar items 11 y 12 desde GATTI_IMAGES
+    // Cargar items 11 y 12
+    var newItemsInput = document.createElement('input');
+    newItemsInput.type = 'file'; newItemsInput.accept = 'image/*';
+    newItemsInput.style.display = 'none';
+    document.body.appendChild(newItemsInput);
+    var activeNewItem = null;
+
+    function applyNewItem(item, dataUrl) {
+      var id = item.dataset.portfolioId;
+      var savedPos = localStorage.getItem('gatti_pos_' + id);
+      item.style.backgroundImage = 'url(' + dataUrl + ')';
+      item.style.backgroundSize = 'cover';
+      item.style.backgroundPosition = savedPos || '50% 50%';
+      item.classList.add('portfolio-item--loaded');
+      item.classList.remove('portfolio-item--placeholder');
+      item.removeAttribute('role'); item.removeAttribute('tabindex');
+      enableDragOnce(item);
+    }
+
     [11, 12].forEach(function(id) {
       var item = document.querySelector('[data-portfolio-id="' + id + '"]');
       if (!item) return;
-      var dataUrl = window.GATTI_IMAGES && window.GATTI_IMAGES['portfolio_' + id];
+      var embedded = window.GATTI_IMAGES && window.GATTI_IMAGES['portfolio_' + id];
+      var saved = localStorage.getItem('gatti_portfolio_' + id);
+      var dataUrl = embedded || saved;
       if (dataUrl) {
-        var savedPos = localStorage.getItem('gatti_pos_' + id);
-        item.style.backgroundImage = 'url(' + dataUrl + ')';
-        item.style.backgroundSize = 'cover';
-        item.style.backgroundPosition = savedPos || '50% 50%';
-        item.classList.add('portfolio-item--loaded');
-        item.classList.remove('portfolio-item--placeholder');
-        enableDragOnce(item);
+        applyNewItem(item, dataUrl);
+      } else {
+        item.style.cursor = 'pointer';
+        item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0');
+        item.addEventListener('click', function() {
+          activeNewItem = item; newItemsInput.value = ''; newItemsInput.click();
+        });
       }
+    });
+
+    newItemsInput.addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      if (!file || !activeNewItem) return;
+      var item = activeNewItem; activeNewItem = null;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        applyNewItem(item, ev.target.result);
+        try { localStorage.setItem('gatti_portfolio_' + item.dataset.portfolioId, ev.target.result); } catch(err) {}
+      };
+      reader.readAsDataURL(file);
     });
 
     // Cargar logo navbar desde GATTI_IMAGES
