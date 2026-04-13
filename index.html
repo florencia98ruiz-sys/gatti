@@ -1286,104 +1286,21 @@
     }
 
     // ─── PORTFOLIO IMAGES ───────────────────────────────────────────
-    const portfolioFileInput = document.createElement('input');
-    portfolioFileInput.type = 'file'; portfolioFileInput.accept = 'image/*';
-    portfolioFileInput.style.display = 'none';
-    document.body.appendChild(portfolioFileInput);
-    let activePortfolioItem = null;
-
     function applyPortfolioImage(item, dataUrl) {
-      const id = item.dataset.portfolioId;
       item.style.backgroundImage = `url('${dataUrl}')`;
       item.style.backgroundSize = 'cover';
-      // Restaurar posición guardada si existe
-      const savedPos = localStorage.getItem(`gatti_pos_${id}`);
-      item.style.backgroundPosition = savedPos || '50% 50%';
-      item.style.cursor = 'grab';
+      item.style.backgroundPosition = '50% 50%';
+      item.style.cursor = 'default';
       item.classList.add('portfolio-item--loaded');
       item.classList.remove('portfolio-item--placeholder');
-      item.setAttribute('title', 'Arrastrá para reencuadrar · Clic largo para cambiar foto');
-      enableReposition(item);
-    }
-
-    // ─── DRAG PARA REENCUADRAR FOTO ─────────────────────────────────
-    function enableReposition(item) {
-      if (item._repoBound) return;
-      item._repoBound = true;
-      let dragging = false, moved = false;
-      let startX, startY, startPosX, startPosY;
-
-      function getPosPercent() {
-        const p = (item.style.backgroundPosition || '50% 50%').split(' ');
-        return { x: parseFloat(p[0]) || 50, y: parseFloat(p[1]) || 50 };
-      }
-
-      function onStart(e) {
-        const t = e.touches ? e.touches[0] : e;
-        dragging = true; moved = false;
-        startX = t.clientX; startY = t.clientY;
-        const p = getPosPercent();
-        startPosX = p.x; startPosY = p.y;
-        item.style.cursor = 'grabbing';
-      }
-
-      function onMove(e) {
-        if (!dragging) return;
-        const t = e.touches ? e.touches[0] : e;
-        const dx = t.clientX - startX;
-        const dy = t.clientY - startY;
-        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
-          moved = true;
-          e.preventDefault();
-          const rect = item.getBoundingClientRect();
-          const nx = Math.max(0, Math.min(100, startPosX - (dx / rect.width)  * 100));
-          const ny = Math.max(0, Math.min(100, startPosY - (dy / rect.height) * 100));
-          item.style.backgroundPosition = `${nx.toFixed(1)}% ${ny.toFixed(1)}%`;
-        }
-      }
-
-      function onEnd() {
-        if (!dragging) return;
-        dragging = false;
-        item.style.cursor = moved ? 'grab' : 'pointer';
-        if (moved) {
-          // Guardar posición
-          const id = item.dataset.portfolioId;
-          try { localStorage.setItem(`gatti_pos_${id}`, item.style.backgroundPosition); } catch(e) {}
-        }
-      }
-
-      item.addEventListener('mousedown',  onStart);
-      item.addEventListener('touchstart', onStart, { passive: true });
-      document.addEventListener('mousemove',  onMove);
-      document.addEventListener('mouseup',    onEnd);
-      item.addEventListener('touchmove', onMove, { passive: false });
-      item.addEventListener('touchend',  onEnd);
+      item.removeAttribute('role');
+      item.removeAttribute('tabindex');
+      item.removeAttribute('title');
     }
 
     document.querySelectorAll('[data-portfolio-id]').forEach(item => {
       const saved = (window.GATTI_IMAGES && GATTI_IMAGES[`portfolio_${item.dataset.portfolioId}`]) || localStorage.getItem(`gatti_portfolio_${item.dataset.portfolioId}`);
       if (saved) applyPortfolioImage(item, saved);
-      // Clic corto (sin arrastre) abre el file picker
-      item.addEventListener('click', () => {
-        if (item._repoBound && item.style.cursor === 'grab') return; // ignora si está en modo drag
-        activePortfolioItem = item;
-        portfolioFileInput.value = '';
-        portfolioFileInput.click();
-      });
-    });
-
-    portfolioFileInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file || !activePortfolioItem) return;
-      const item = activePortfolioItem;
-      activePortfolioItem = null;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        applyPortfolioImage(item, ev.target.result);
-        try { localStorage.setItem(`gatti_portfolio_${item.dataset.portfolioId}`, ev.target.result); } catch(err) {}
-      };
-      reader.readAsDataURL(file);
     });
 
     // ─── LOGOS DE MARCAS ────────────────────────────────────────────
