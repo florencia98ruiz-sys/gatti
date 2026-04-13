@@ -1287,9 +1287,10 @@
 
     // ─── PORTFOLIO IMAGES ───────────────────────────────────────────
     function applyPortfolioImage(item, dataUrl) {
+      const savedPos = localStorage.getItem(`gatti_pos_${item.dataset.portfolioId}`);
       item.style.backgroundImage = `url('${dataUrl}')`;
       item.style.backgroundSize = 'cover';
-      item.style.backgroundPosition = '50% 50%';
+      item.style.backgroundPosition = savedPos || '50% 50%';
       item.style.cursor = 'default';
       item.classList.add('portfolio-item--loaded');
       item.classList.remove('portfolio-item--placeholder');
