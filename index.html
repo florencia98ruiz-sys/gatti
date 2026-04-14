@@ -394,14 +394,23 @@
     }
     .why__side {
       background: #08080e;
-      border: 1px solid rgba(90,100,255,0.25);
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: var(--radius-lg); padding: 40px;
       position: relative; overflow: visible;
-      box-shadow:
-        0 0 12px  3px  rgba(70, 90, 255, 0.60),
-        0 0 30px  8px  rgba(55, 70, 220, 0.40),
-        0 0 65px  18px rgba(40, 55, 190, 0.22),
-        0 0 110px 35px rgba(25, 35, 150, 0.10);
+      z-index: 0;
+    }
+    .why__side::before {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      background: linear-gradient(135deg,
+        #4F8EF7, #00C9FF, #00E676, #FFD600, #FF6B35, #FF3CAC, #8A2BE2, #4F8EF7
+      );
+      filter: blur(22px);
+      opacity: 0.70;
+      z-index: -1;
+      pointer-events: none;
     }
     .why__quote {
       font-family: 'Bebas Neue', sans-serif;
