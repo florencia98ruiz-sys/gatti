@@ -393,8 +393,17 @@
       font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7;
     }
     .why__side {
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(ellipse at 50% 40%,
+          rgba(80,60,180,0.18)  0%,
+          rgba(50,30,120,0.10) 35%,
+          rgba(20,10,50,0.06)  60%,
+          transparent          100%
+        ),
+        rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: var(--radius-lg); padding: 40px;
+      position: relative; overflow: hidden;
     }
     .why__quote {
       font-family: 'Bebas Neue', sans-serif;
