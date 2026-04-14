@@ -393,17 +393,15 @@
       font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7;
     }
     .why__side {
-      background:
-        radial-gradient(ellipse 120% 80% at 50% 10%,
-          rgba(110,80,255,0.38) 0%,
-          rgba(70,40,180,0.22) 30%,
-          rgba(30,15,80,0.10)  58%,
-          transparent          82%
-        ),
-        #0a0a0f;
-      border: 1px solid rgba(110,80,255,0.18);
+      background: #08080e;
+      border: 1px solid rgba(90,100,255,0.25);
       border-radius: var(--radius-lg); padding: 40px;
-      position: relative; overflow: hidden;
+      position: relative; overflow: visible;
+      box-shadow:
+        0 0 12px  3px  rgba(70, 90, 255, 0.60),
+        0 0 30px  8px  rgba(55, 70, 220, 0.40),
+        0 0 65px  18px rgba(40, 55, 190, 0.22),
+        0 0 110px 35px rgba(25, 35, 150, 0.10);
     }
     .why__quote {
       font-family: 'Bebas Neue', sans-serif;
@@ -725,14 +723,14 @@
     }
 
     /* ─── LAYOUT "POR QUÉ GATTI" — responsive ─────────────────────── */
-    .why__layout {
+    .why__layout { overflow: visible;
       display: grid;
       grid-template-columns: 1fr 420px;
       gap: 64px;
       align-items: start;
     }
     @media (max-width: 900px) {
-      .why__layout { grid-template-columns: 1fr; gap: 40px; }
+      .why__layout { overflow: visible; grid-template-columns: 1fr; gap: 40px; }
     }
 
     /* ─── OCULTAR CONTROLES DE EDICIÓN ────────────────────────────── */
