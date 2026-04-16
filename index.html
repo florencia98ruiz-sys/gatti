@@ -839,6 +839,20 @@
     .location-card__photo-placeholder svg {
       opacity: 0.4;
     }
+
+    /* ─── GUARDAR PÁGINA ─── */
+    #save-page-btn {
+      position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+      background: #6c63ff; color: #fff;
+      border: none; border-radius: 50px;
+      padding: 10px 18px; font-size: 13px; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(108,99,255,0.4);
+      font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    #save-page-btn:hover { background: #574fd6; transform: scale(1.04); }
+    #save-page-btn:active { transform: scale(0.97); }
 </style>
 </head>
 <body>
@@ -1440,10 +1454,9 @@
 
     function applyPortfolioImage(item, dataUrl) {
       var id = item.dataset.portfolioId;
-      var savedPos = localStorage.getItem('gatti_pos_' + id);
       item.style.backgroundImage = 'url(' + dataUrl + ')';
       item.style.backgroundSize = 'cover';
-      item.style.backgroundPosition = savedPos || '50% 50%';
+      item.style.backgroundPosition = '50% 50%';
       item.classList.add('portfolio-item--loaded');
       item.classList.remove('portfolio-item--placeholder');
       item.removeAttribute('role'); item.removeAttribute('tabindex');
@@ -1459,7 +1472,7 @@
 
     document.querySelectorAll('[data-portfolio-id]').forEach(function(item) {
       var id = item.dataset.portfolioId;
-      var dataUrl = localStorage.getItem('gatti_portfolio_' + id) || (window.GATTI_IMAGES && window.GATTI_IMAGES['portfolio_' + id]);
+      var dataUrl = window.GATTI_IMAGES && window.GATTI_IMAGES['portfolio_' + id];
       if (dataUrl) {
         applyPortfolioImage(item, dataUrl);
       } else {
@@ -1478,7 +1491,7 @@
       var reader = new FileReader();
       reader.onload = function(ev) {
         applyPortfolioImage(item, ev.target.result);
-        try { localStorage.setItem('gatti_portfolio_' + item.dataset.portfolioId, ev.target.result); } catch(err) {}
+
       };
       reader.readAsDataURL(file);
     });
@@ -1559,6 +1572,102 @@
       bindLocDrag(slot);
     });
   })();
+</script>
+
+<button id="save-page-btn" onclick="guardarPagina()" title="Guardar pagina con todas las imagenes actuales">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+  Guardar pagina
+</button>
+<script>
+function guardarPagina() {
+  var btn = document.getElementById('save-page-btn');
+  btn.textContent = 'Generando...';
+  btn.disabled = true;
+  setTimeout(function() {
+    try {
+      var imgs = {};
+
+      // Hero
+      var heroEl = document.querySelector('.hero__photo');
+      if (heroEl && heroEl.style.backgroundImage) {
+        var heroBg = heroEl.style.backgroundImage;
+        var hStart = heroBg.indexOf('data:');
+        var hEnd = heroBg.lastIndexOf(')');
+        if (hStart > -1 && hEnd > hStart) {
+          var hUrl = heroBg.slice(hStart, hEnd).replace(/['"]/g, '');
+          if (hUrl) imgs.hero = hUrl;
+        }
+      }
+
+      // Logo navbar
+      var navLogo = document.getElementById('navbar-logo-img');
+      if (navLogo && navLogo.src && navLogo.src.indexOf('data:') === 0) {
+        imgs.logo_navbar = navLogo.src;
+      }
+
+      // Portfolio
+      document.querySelectorAll('[data-portfolio-id]').forEach(function(item) {
+        var bg = item.style.backgroundImage || '';
+        var s = bg.indexOf('data:');
+        var e = bg.lastIndexOf(')');
+        if (s > -1 && e > s) {
+          var url = bg.slice(s, e).replace(/['"]/g, '');
+          if (url) imgs['portfolio_' + item.dataset.portfolioId] = url;
+        }
+      });
+
+      // Sucursales
+      [1, 2].forEach(function(id) {
+        var slot = document.querySelector('[data-location-id="' + id + '"] img');
+        if (slot && slot.src && slot.src.indexOf('data:') === 0) {
+          imgs['ubicacion_' + id] = slot.src;
+        }
+      });
+
+      // Merge: base GATTI_IMAGES + DOM overrides
+      var merged = {};
+      var base = window.GATTI_IMAGES || {};
+      Object.keys(base).forEach(function(k) { merged[k] = base[k]; });
+      Object.keys(imgs).forEach(function(k) { merged[k] = imgs[k]; });
+
+      // Build new GATTI_IMAGES block
+      var entries = Object.keys(merged).map(function(k) {
+        return "      " + k + ": '" + merged[k] + "'";
+      }).join(',\n');
+      var newBlock = 'window.GATTI_IMAGES = {\n' + entries + '\n    };';
+
+      // Get HTML and replace GATTI_IMAGES
+      var rawHtml = document.documentElement.outerHTML;
+      var patStart = rawHtml.indexOf('window.GATTI_IMAGES = {');
+      var patEnd = rawHtml.indexOf('\n    };', patStart) + 7;
+      if (patStart < 0 || patEnd < 7) {
+        throw new Error('No se encontro GATTI_IMAGES en el HTML');
+      }
+      var finalHtml = rawHtml.slice(0, patStart) + newBlock + rawHtml.slice(patEnd);
+
+      // Download
+      var blob = new Blob([finalHtml], {type: 'text/html;charset=utf-8'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'gatti_grafica.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      btn.textContent = 'Guardado!';
+      setTimeout(function() {
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar pagina';
+        btn.disabled = false;
+      }, 3000);
+    } catch(err) {
+      alert('Error al guardar: ' + err.message);
+      btn.textContent = 'Guardar pagina';
+      btn.disabled = false;
+    }
+  }, 100);
+}
 </script>
 </body>
 </html>
