@@ -824,15 +824,6 @@
     }
     .location-card__photo:hover { border-color: rgba(255,255,255,0.35); }
     .location-card__photo.has-img { border: none; cursor: grab; }
-    .location-card__photo .loc-photo-edit {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.2s;
-      color: #fff; font-size: 13px; font-weight: 600; gap: 6px;
-      border-radius: var(--radius-md);
-    }
-    .location-card__photo:hover .loc-photo-edit { opacity: 1; }
     .location-card__photo img {
       width: 100%; height: 100%;
       object-fit: cover; display: block;
@@ -1220,8 +1211,7 @@
       </div>
       <div class="locations__grid">
         <div class="location-card fade-up">
-          <div class="location-card__photo" id="loc-photo-1" data-location-id="1"><div class="loc-photo-edit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Cambiar foto</div>
-            <div class="location-card__photo-placeholder">
+          <div class="location-card__photo" id="loc-photo-1" data-location-id="1">            <div class="location-card__photo-placeholder">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               Clic para agregar foto de la sucursal
             </div>
@@ -1250,8 +1240,7 @@
           </iframe>
         </div>
         <div class="location-card fade-up">
-          <div class="location-card__photo" id="loc-photo-2" data-location-id="2"><div class="loc-photo-edit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Cambiar foto</div>
-            <div class="location-card__photo-placeholder">
+          <div class="location-card__photo" id="loc-photo-2" data-location-id="2">            <div class="location-card__photo-placeholder">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               Clic para agregar foto de la sucursal
             </div>
@@ -1298,7 +1287,7 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
-          Cotizar por WhatsApp — 11 6505-4124
+          Cotizar por WhatsApp — 11 4444-9677
         </a>
       </div>
     </div>
@@ -1332,7 +1321,7 @@
           <ul class="footer__list">
             <li>
               <a href="https://wa.me/5491144449677" target="_blank" rel="noopener">
-                WhatsApp: 11 6505-4124
+                WhatsApp: 11 4444-9677
               </a>
             </li>
             <li>
@@ -1528,35 +1517,13 @@
 
     // Para resetear todo: localStorage.clear(); location.reload();
   
-      // ── Location card photos ──
+        // -- Location card photos --
   (function() {
-    var locInput = document.createElement('input');
-    locInput.type = 'file'; locInput.accept = 'image/*'; locInput.style.display = 'none';
-    document.body.appendChild(locInput);
-    var activeLocSlot = null;
-
-    // Default positions (can be overridden by hardcoded values)
-    var defaultPos = { '1': '50% 50%', '2': '50% 50%' };
-
     function bindLocDrag(slot) {
       if (slot._locDragBound) return;
       slot._locDragBound = true;
-      var id = slot.dataset.locationId;
       var dragging = false, moved = false, sx, sy, spx = 50, spy = 50;
       var locked = false;
-
-      // Show position badge
-      function showPosBadge(x, y) {
-        var badge = slot.querySelector('.loc-pos-badge');
-        if (!badge) {
-          badge = document.createElement('div');
-          badge.className = 'loc-pos-badge';
-          badge.style.cssText = 'position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;font-size:11px;padding:4px 10px;border-radius:20px;white-space:nowrap;z-index:10;';
-          slot.appendChild(badge);
-        }
-        badge.textContent = 'Posición: ' + x.toFixed(0) + '% ' + y.toFixed(0) + '% — Enviame estos números para fijarlo en todos los dispositivos';
-        setTimeout(function() { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 6000);
-      }
 
       function getPos() {
         var img = slot.querySelector('img');
@@ -1566,8 +1533,6 @@
 
       slot.addEventListener('mousedown', function(e) {
         if (locked) return;
-        if (e.target.closest && e.target.closest('.loc-photo-edit')) return;
-        if (e.target.closest && e.target.closest('.loc-pos-badge')) return;
         var p = getPos(); spx = p.x; spy = p.y;
         sx = e.clientX; sy = e.clientY;
         dragging = true; moved = false;
@@ -1587,54 +1552,36 @@
         }
       });
       document.addEventListener('mouseup', function() {
-        if (!dragging) return; dragging = false;
-        slot.style.cursor = '';
+        if (!dragging) return;
+        dragging = false;
+        slot.style.cursor = 'grab';
         if (moved) {
-          locked = true; // lock after first reposition
+          locked = true;
           var img = slot.querySelector('img');
           var pos = img ? img.style.objectPosition : '50% 50%';
-          var parts = pos.split(' ');
-          showPosBadge(parseFloat(parts[0]) || 50, parseFloat(parts[1]) || 50);
+          var badge = document.createElement('div');
+          badge.style.cssText = 'position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;font-size:11px;padding:4px 12px;border-radius:20px;white-space:nowrap;z-index:10;pointer-events:none;';
+          badge.textContent = 'Posicion: ' + pos + ' - Enviame estos numeros para fijarlo';
+          slot.appendChild(badge);
+          setTimeout(function() { if (badge.parentNode) badge.parentNode.removeChild(badge); }, 5000);
         }
       });
-    }
-
-    function applyLocationPhoto(slot, dataUrl, pos) {
-      var id = slot.dataset.locationId;
-      slot.innerHTML = '';
-      var img = document.createElement('img');
-      img.src = dataUrl; img.alt = 'Foto sucursal';
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-      img.style.objectPosition = pos || defaultPos[id] || '50% 50%';
-      slot.appendChild(img);
-      var ov = document.createElement('div');
-      ov.className = 'loc-photo-edit';
-      ov.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Cambiar foto';
-      slot.appendChild(ov);
-      slot.classList.add('has-img');
-      bindLocDrag(slot);
     }
 
     document.querySelectorAll('.location-card__photo').forEach(function(slot) {
       var id = slot.dataset.locationId;
-      // Images from GATTI_IMAGES only (no localStorage)
       var dataUrl = window.GATTI_IMAGES && GATTI_IMAGES['ubicacion_' + id];
-      if (dataUrl) applyLocationPhoto(slot, dataUrl, defaultPos[id]);
-
-      slot.addEventListener('click', function(e) {
-        var onEdit = e.target.closest && e.target.closest('.loc-photo-edit');
-        if (onEdit || !slot.classList.contains('has-img')) {
-          activeLocSlot = slot; locInput.value = ''; locInput.click();
-        }
-      });
-    });
-
-    locInput.addEventListener('change', function() {
-      if (!locInput.files[0] || !activeLocSlot) return;
-      var reader = new FileReader();
-      var slot = activeLocSlot; activeLocSlot = null;
-      reader.onload = function(e) { applyLocationPhoto(slot, e.target.result, null); };
-      reader.readAsDataURL(locInput.files[0]);
+      if (!dataUrl) return;
+      slot.innerHTML = '';
+      var img = document.createElement('img');
+      img.src = dataUrl;
+      img.alt = 'Foto sucursal';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;object-position:50% 50%;';
+      slot.appendChild(img);
+      slot.classList.add('has-img');
+      slot.style.cursor = 'grab';
+      slot.style.border = 'none';
+      bindLocDrag(slot);
     });
   })();
 </script>
