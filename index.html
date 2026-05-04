@@ -471,7 +471,7 @@
       display: flex; align-items: flex-end; padding: 20px;
       opacity: 0; transition: opacity var(--transition);
     }
-    .portfolio-item:hover .portfolio-item__overlay { opacity: 1; }
+    .portfolio-item:hover .portfolio-item__overlay { opacity: 1; pointer-events: none; }
     .portfolio-item__label {
       font-size: 13px; font-weight: 600; color: var(--c-white);
       background: rgba(0,0,0,0.75);
@@ -643,7 +643,7 @@
       font-weight: 400; color: var(--c-white); line-height: 1.0; letter-spacing: 2px;
       margin-bottom: 20px; text-transform: uppercase;
     }
-    .cta-section__title em { font-style: normal; color: #fff; -webkit-text-fill-color: #fff; background: none; -webkit-background-clip: unset; background-clip: unset; text-shadow: -2px -2px 0 #ff0080, 0 -3px 0 #ff6600, 2px -2px 0 #ffee00, 3px 0 0 #00dd44, 2px 2px 0 #00ccff, 0 3px 0 #0055ff, -2px 2px 0 #aa00ff, -3px 0 0 #ff0080, 0 0 18px rgba(255,100,200,0.55), 0 0 35px rgba(80,180,255,0.35); }
+    .cta-section__title em { font-style: normal; color: #fff; -webkit-text-fill-color: #fff; background: none; -webkit-background-clip: unset; background-clip: unset; text-shadow: -2px -2px 0 #1a3d8f, 0 -3px 0 #1e70c0, 2px -2px 0 #1a9080, 3px 0 0 #3ab040, 2px 2px 0 #88c020, 0 3px 0 #b8a010, -2px 2px 0 #b8a010, -3px 0 0 #1a3d8f, 0 0 14px rgba(30,100,220,0.45), 0 0 28px rgba(170,200,0,0.3); }
     .cta-section__sub {
       font-size: 17px; color: rgba(255,255,255,0.55); margin-bottom: 40px; line-height: 1.7;
     }
@@ -1466,12 +1466,7 @@
         inp.click();
       });
     }
-
-    // PORTFOLIO IMAGES
-    var portfolioFileInput = document.createElement('input');
-    portfolioFileInput.type = 'file'; portfolioFileInput.accept = 'image/*';
-    portfolioFileInput.style.display = 'none';
-    document.body.appendChild(portfolioFileInput);
+    // PORTFOLIO PHOTOS — input invisible directo en cada item
     var activePortfolioItem = null;
 
     function applyPortfolioImage(item, dataUrl) {
@@ -1484,6 +1479,8 @@
       item.classList.remove('portfolio-item--placeholder');
       item.removeAttribute('role'); item.removeAttribute('tabindex');
       item.style.cursor = 'grab';
+      var oldInp = item.querySelector('.portfolio-upload-input');
+      if (oldInp) oldInp.remove();
       bindPortfolioDrag(item);
     }
 
@@ -1496,36 +1493,32 @@
         return { x: parseFloat(pos[0]) || 50, y: parseFloat(pos[1]) || 50 };
       }
       function setPos(x, y) {
-        var posStr = Math.max(0,Math.min(100,x)) + '% ' + Math.max(0,Math.min(100,y)) + '%';
+        x = Math.max(0, Math.min(100, x));
+        y = Math.max(0, Math.min(100, y));
+        var posStr = x.toFixed(1) + '% ' + y.toFixed(1) + '%';
         item.style.backgroundPosition = posStr;
         GATTI_CURRENT['pos_' + item.dataset.portfolioId] = posStr;
       }
       item.addEventListener('mousedown', function(e) {
-        if (e.button !== 0) return;
-        dragging = true;
-        var p = getPos(); startX = e.clientX; startY = e.clientY; startPX = p.x; startPY = p.y;
-        item.style.cursor = 'grabbing'; e.preventDefault();
+        if (e.target.classList.contains('change-photo-btn') || e.target.closest('.change-photo-btn')) return;
+        if (e.target.classList.contains('portfolio-upload-input')) return;
+        dragging = true; startX = e.clientX; startY = e.clientY;
+        var p = getPos(); startPX = p.x; startPY = p.y; e.preventDefault();
       });
       document.addEventListener('mousemove', function(e) {
         if (!dragging) return;
-        var rect = item.getBoundingClientRect();
-        setPos(startPX - (e.clientX - startX) / rect.width * 100,
-               startPY - (e.clientY - startY) / rect.height * 100);
+        setPos(startPX + (startX - e.clientX) * 0.1, startPY + (startY - e.clientY) * 0.1);
       });
-      document.addEventListener('mouseup', function() {
-        if (dragging) { dragging = false; item.style.cursor = 'grab'; }
-      });
+      document.addEventListener('mouseup', function() { dragging = false; });
       item.addEventListener('touchstart', function(e) {
-        var t = e.touches[0]; dragging = true;
-        var p = getPos(); startX = t.clientX; startY = t.clientY; startPX = p.x; startPY = p.y;
+        if (e.target.classList.contains('portfolio-upload-input')) return;
+        dragging = true; startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+        var p = getPos(); startPX = p.x; startPY = p.y;
       }, { passive: true });
       item.addEventListener('touchmove', function(e) {
         if (!dragging) return;
-        var t = e.touches[0], rect = item.getBoundingClientRect();
-        setPos(startPX - (t.clientX - startX) / rect.width * 100,
-               startPY - (t.clientY - startY) / rect.height * 100);
-        e.preventDefault();
-      }, { passive: false });
+        setPos(startPX + (startX - e.touches[0].clientX) * 0.1, startPY + (startY - e.touches[0].clientY) * 0.1);
+      }, { passive: true });
       item.addEventListener('touchend', function() { dragging = false; });
     }
 
@@ -1535,36 +1528,23 @@
       if (dataUrl) {
         applyPortfolioImage(item, dataUrl);
       } else {
-        item.style.cursor = 'pointer';
-        item.setAttribute('role', 'button'); item.setAttribute('tabindex', '0');
-        item.addEventListener('click', function() {
-          activePortfolioItem = item; portfolioFileInput.value = ''; portfolioFileInput.click();
+        var inp = document.createElement('input');
+        inp.type = 'file'; inp.accept = 'image/*'; inp.className = 'portfolio-upload-input';
+        inp.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;';
+        item.appendChild(inp);
+        inp.addEventListener('change', function(e) {
+          var file = e.target.files[0]; if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function(ev) {
+            applyPortfolioImage(item, ev.target.result);
+            GATTI_CURRENT['portfolio_' + id] = ev.target.result;
+            showSaveBar();
+          };
+          reader.readAsDataURL(file);
         });
       }
     });
 
-    portfolioFileInput.addEventListener('change', function(e) {
-      var file = e.target.files[0];
-      if (!file || !activePortfolioItem) return;
-      var item = activePortfolioItem; activePortfolioItem = null;
-      var reader = new FileReader();
-      reader.onload = function(ev) {
-        applyPortfolioImage(item, ev.target.result);
-        GATTI_CURRENT['portfolio_' + item.dataset.portfolioId] = ev.target.result;
-        showSaveBar();
-      };
-      reader.readAsDataURL(file);
-    });
-
-    document.querySelectorAll('.change-photo-btn[aria-label^="Cambiar foto "]').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var item = btn.closest('[data-portfolio-id]');
-        if (item) { activePortfolioItem = item; portfolioFileInput.value = ''; portfolioFileInput.click(); }
-      });
-    });
-
-    // LOCATION PHOTOS
     var locationFileInput = document.createElement('input');
     locationFileInput.type = 'file'; locationFileInput.accept = 'image/*';
     locationFileInput.style.display = 'none';
