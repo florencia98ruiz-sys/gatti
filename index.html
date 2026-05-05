@@ -643,7 +643,7 @@
       font-weight: 400; color: var(--c-white); line-height: 1.0; letter-spacing: 2px;
       margin-bottom: 20px; text-transform: uppercase;
     }
-    .cta-section__title em { font-style: normal; color: #fff; -webkit-text-fill-color: #fff; background: none; -webkit-background-clip: unset; background-clip: unset; text-shadow: -5px 0 0 #1a4fbf, -5px -2px 0 #1a4fbf, -5px 2px 0 #1a4fbf, -4px -4px 0 #1a70bf, -2px -5px 0 #1a88bf, 0 -5px 0 #1a9090, 2px -5px 0 #28a870, 4px -4px 0 #38b850, 5px -2px 0 #42c040, 5px 0 0 #42c040, 5px 2px 0 #72c025, 4px 4px 0 #92c018, 2px 5px 0 #b0b010, 0 5px 0 #c0a010, -2px 5px 0 #c09010, -4px 4px 0 #b07820, -5px 2px 0 #1a4fbf, 0 0 16px rgba(26,79,191,0.5), 0 0 32px rgba(192,160,16,0.35); }
+    .cta-section__title em { font-style: normal; color: #fff; -webkit-text-fill-color: #fff; background: none; -webkit-background-clip: unset; background-clip: unset; text-shadow: -5px -2px 0 #8000ff, -4px -4px 0 #6000ff, -2px -5px 0 #3020ff, 0 -5px 0 #1060ff, 2px -5px 0 #00a0ff, 4px -4px 0 #00c8ff, 5px -2px 0 #00d0c0, 5px 0 0 #00c840, 5px 2px 0 #40c020, 4px 4px 0 #80c000, 2px 5px 0 #b0c000, 0 5px 0 #c8b000, -2px 5px 0 #c89000, -4px 4px 0 #c07000, -5px 2px 0 #a020c0, -5px 0 0 #8000ff, 0 0 20px rgba(128,0,255,0.45), 0 0 40px rgba(0,200,128,0.3); }
     .cta-section__sub {
       font-size: 17px; color: rgba(255,255,255,0.55); margin-bottom: 40px; line-height: 1.7;
     }
@@ -1466,8 +1466,26 @@
         inp.click();
       });
     }
-    // PORTFOLIO PHOTOS — input invisible directo en cada item
-    var activePortfolioItem = null;
+    // PORTFOLIO PHOTOS
+    var portfolioPicker = document.createElement('input');
+    portfolioPicker.type = 'file'; portfolioPicker.accept = 'image/*';
+    portfolioPicker.style.cssText = 'position:fixed;top:-300px;left:-300px;width:1px;height:1px;opacity:0;';
+    document.body.appendChild(portfolioPicker);
+    var pickerTargetItem = null; var pickerTargetId = null;
+
+    portfolioPicker.addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      if (!file || !pickerTargetItem) return;
+      var item = pickerTargetItem; var id = pickerTargetId;
+      pickerTargetItem = null; pickerTargetId = null;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        applyPortfolioImage(item, ev.target.result);
+        GATTI_CURRENT['portfolio_' + id] = ev.target.result;
+        showSaveBar();
+      };
+      reader.readAsDataURL(file);
+    });
 
     function applyPortfolioImage(item, dataUrl) {
       var id = item.dataset.portfolioId;
@@ -1479,45 +1497,34 @@
       item.classList.remove('portfolio-item--placeholder');
       item.removeAttribute('role'); item.removeAttribute('tabindex');
       item.style.cursor = 'grab';
-      var oldInp = item.querySelector('.portfolio-upload-input');
-      if (oldInp) oldInp.remove();
       bindPortfolioDrag(item);
     }
 
     function bindPortfolioDrag(item) {
-      if (item._dragBound) return;
-      item._dragBound = true;
+      if (item._dragBound) return; item._dragBound = true;
       var dragging = false, startX, startY, startPX, startPY;
       function getPos() {
         var pos = (item.style.backgroundPosition || '50% 50%').split(' ');
         return { x: parseFloat(pos[0]) || 50, y: parseFloat(pos[1]) || 50 };
       }
       function setPos(x, y) {
-        x = Math.max(0, Math.min(100, x));
-        y = Math.max(0, Math.min(100, y));
+        x = Math.max(0, Math.min(100, x)); y = Math.max(0, Math.min(100, y));
         var posStr = x.toFixed(1) + '% ' + y.toFixed(1) + '%';
         item.style.backgroundPosition = posStr;
         GATTI_CURRENT['pos_' + item.dataset.portfolioId] = posStr;
       }
       item.addEventListener('mousedown', function(e) {
-        if (e.target.classList.contains('change-photo-btn') || e.target.closest('.change-photo-btn')) return;
-        if (e.target.classList.contains('portfolio-upload-input')) return;
         dragging = true; startX = e.clientX; startY = e.clientY;
         var p = getPos(); startPX = p.x; startPY = p.y; e.preventDefault();
       });
-      document.addEventListener('mousemove', function(e) {
-        if (!dragging) return;
-        setPos(startPX + (startX - e.clientX) * 0.1, startPY + (startY - e.clientY) * 0.1);
-      });
+      document.addEventListener('mousemove', function(e) { if (dragging) setPos(startPX + (startX - e.clientX) * 0.1, startPY + (startY - e.clientY) * 0.1); });
       document.addEventListener('mouseup', function() { dragging = false; });
       item.addEventListener('touchstart', function(e) {
-        if (e.target.classList.contains('portfolio-upload-input')) return;
         dragging = true; startX = e.touches[0].clientX; startY = e.touches[0].clientY;
         var p = getPos(); startPX = p.x; startPY = p.y;
       }, { passive: true });
       item.addEventListener('touchmove', function(e) {
-        if (!dragging) return;
-        setPos(startPX + (startX - e.touches[0].clientX) * 0.1, startPY + (startY - e.touches[0].clientY) * 0.1);
+        if (dragging) setPos(startPX + (startX - e.touches[0].clientX) * 0.1, startPY + (startY - e.touches[0].clientY) * 0.1);
       }, { passive: true });
       item.addEventListener('touchend', function() { dragging = false; });
     }
@@ -1529,23 +1536,11 @@
         applyPortfolioImage(item, dataUrl);
       } else {
         item.addEventListener('click', function() {
-          var inp = document.createElement('input');
-          inp.type = 'file'; inp.accept = 'image/*';
-          inp.onchange = function(e) {
-            var file = e.target.files[0]; if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function(ev) {
-              applyPortfolioImage(item, ev.target.result);
-              GATTI_CURRENT['portfolio_' + id] = ev.target.result;
-              showSaveBar();
-            };
-            reader.readAsDataURL(file);
-          };
-          inp.click();
+          pickerTargetItem = item; pickerTargetId = id;
+          portfolioPicker.value = ''; portfolioPicker.click();
         });
       }
     });
-
     var locationFileInput = document.createElement('input');
     locationFileInput.type = 'file'; locationFileInput.accept = 'image/*';
     locationFileInput.style.display = 'none';
