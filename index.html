@@ -455,8 +455,8 @@
     [data-portfolio-id="5"]  { grid-column: 2;           grid-row: 2; }
     [data-portfolio-id="6"]  { grid-column: 4;           grid-row: 2; }
     [data-portfolio-id="8"]  { grid-column: 1 / span 2;  grid-row: 3; }
-    [data-portfolio-id="9"]  { grid-column: 3;            grid-row: 4; }
-    [data-portfolio-id="12"] { grid-column: 1 / span 2;  grid-row: 4; }
+    [data-portfolio-id="9"]  { grid-column: 1 / span 2;  grid-row: 4; }
+    [data-portfolio-id="12"] { grid-column: 3 / span 2;  grid-row: 3; }
     .portfolio-item__img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.5s ease;
@@ -499,14 +499,14 @@
     .portfolio-item--loaded {
       background-size: cover !important;
       background-repeat: no-repeat !important;
-      cursor: grab;
+      cursor: default;
       user-select: none;
       -webkit-user-select: none;
     }
-    .portfolio-item--loaded:active { cursor: grabbing; }
+
 
     /* Badge "mover" — aparece al hacer hover sobre una foto cargada */
-    .reposition-badge {
+    .reposition-badge { display: none !important; } .reposition-badge-x {
       position: absolute; top: 10px; right: 10px; z-index: 5;
       display: flex; align-items: center; gap: 6px;
       background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
@@ -572,8 +572,8 @@
     #gatti-export-btn:disabled { opacity: 0.6; cursor: default; }
 
     /* Hero draggable */
-    .hero--draggable .hero__photo { cursor: grab; }
-    .hero--draggable .hero__photo:active { cursor: grabbing; }
+    .hero--draggable .hero__photo { cursor: default; }
+    .hero--draggable .hero__photo:active { cursor: defaultbing; }
 
     /* ─── LOCATIONS ────────────────────────────────────────────────── */
     .locations__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -1485,11 +1485,9 @@
       item.classList.add('portfolio-item--loaded');
       item.classList.remove('portfolio-item--placeholder');
       item.removeAttribute('role'); item.removeAttribute('tabindex');
-      item.style.cursor = 'grab';
-      bindPortfolioDrag(item);
+      item.style.cursor = 'default';
     }
 
-    function bindPortfolioDrag(item) {
       if (item._dragBound) return; item._dragBound = true;
       var dragging = false, startX, startY, startPX, startPY;
       function getPos() {
