@@ -1488,33 +1488,6 @@
       item.style.cursor = 'default';
     }
 
-      if (item._dragBound) return; item._dragBound = true;
-      var dragging = false, startX, startY, startPX, startPY;
-      function getPos() {
-        var pos = (item.style.backgroundPosition || '50% 50%').split(' ');
-        return { x: parseFloat(pos[0]) || 50, y: parseFloat(pos[1]) || 50 };
-      }
-      function setPos(x, y) {
-        x = Math.max(0, Math.min(100, x)); y = Math.max(0, Math.min(100, y));
-        var posStr = x.toFixed(1) + '% ' + y.toFixed(1) + '%';
-        item.style.backgroundPosition = posStr;
-        GATTI_CURRENT['pos_' + item.dataset.portfolioId] = posStr;
-      }
-      item.addEventListener('mousedown', function(e) {
-        dragging = true; startX = e.clientX; startY = e.clientY;
-        var p = getPos(); startPX = p.x; startPY = p.y; e.preventDefault();
-      });
-      document.addEventListener('mousemove', function(e) { if (dragging) setPos(startPX + (startX - e.clientX) * 0.1, startPY + (startY - e.clientY) * 0.1); });
-      document.addEventListener('mouseup', function() { dragging = false; });
-      item.addEventListener('touchstart', function(e) {
-        dragging = true; startX = e.touches[0].clientX; startY = e.touches[0].clientY;
-        var p = getPos(); startPX = p.x; startPY = p.y;
-      }, { passive: true });
-      item.addEventListener('touchmove', function(e) {
-        if (dragging) setPos(startPX + (startX - e.touches[0].clientX) * 0.1, startPY + (startY - e.touches[0].clientY) * 0.1);
-      }, { passive: true });
-      item.addEventListener('touchend', function() { dragging = false; });
-    }
     document.querySelectorAll('[data-portfolio-id]').forEach(function(item) {
       var id = item.dataset.portfolioId;
       var dataUrl = (window.GATTI_IMAGES && window.GATTI_IMAGES['portfolio_' + id]) || localStorage.getItem('gatti_portfolio_' + id);
