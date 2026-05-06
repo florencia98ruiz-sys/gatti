@@ -454,10 +454,9 @@
     [data-portfolio-id="4"]  { grid-column: 4;           grid-row: 1; }
     [data-portfolio-id="5"]  { grid-column: 2;           grid-row: 2; }
     [data-portfolio-id="6"]  { grid-column: 4;           grid-row: 2; }
-    [data-portfolio-id="7"]  { grid-column: 1 / span 2;  grid-row: 3; }
-    [data-portfolio-id="8"]  { grid-column: 3 / span 2;  grid-row: 3; }
-    [data-portfolio-id="9"]  { grid-column: 1 / span 4;  grid-row: 4; }
-    [data-portfolio-id="12"] { grid-column: 1 / span 4;  grid-row: 5; }
+    [data-portfolio-id="8"]  { grid-column: 1 / span 4;  grid-row: 3; }
+    [data-portfolio-id="9"]  { grid-column: 3;            grid-row: 4; }
+    [data-portfolio-id="12"] { grid-column: 1 / span 2;  grid-row: 4; }
     .portfolio-item__img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.5s ease;
@@ -630,7 +629,17 @@
       text-align: center;
       position: relative; overflow: hidden;
     }
-    .cta-section__bg {
+    .cta-logo-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .cta-logo-bg img {
+      width: 55%; max-width: 480px; opacity: 0.08;
+      filter: blur(10px) grayscale(1);
+      user-select: none;
+    }
+        .cta-section__bg {
       position: absolute; inset: 0;
       background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%);
     }
@@ -1137,13 +1146,7 @@
           <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 6</span></div>
         </div>
         <!-- Fila 3: item7(ancho) + item8(ancho) = 4 cols -->
-        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="7" role="button" tabindex="0" aria-label="Clic para cargar foto 7">
-          <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
-          <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
-          <button class="change-photo-btn" aria-label="Cambiar foto 7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
-          <div class="portfolio-item__overlay"><span class="portfolio-item__label">Trabajo 7</span></div>
-        </div>
-        <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="8" role="button" tabindex="0" aria-label="Clic para cargar foto 8">
+                <div class="portfolio-item portfolio-item--wide portfolio-item--placeholder" data-portfolio-id="8" role="button" tabindex="0" aria-label="Clic para cargar foto 8">
           <div class="portfolio-item__hint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Clic para cargar foto</span></div>
           <div class="reposition-badge" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>Arrastrar para mover</div>
           <button class="change-photo-btn" aria-label="Cambiar foto 8"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cambiar foto</button>
@@ -1237,6 +1240,7 @@
 
   <!-- ─── CTA FINAL ─────────────────────────────────────────────────── -->
   <section class="cta-section" aria-labelledby="cta-title">
+        <div class="cta-logo-bg" aria-hidden="true"><img id="cta-logo-bg-img" src="" alt=""></div>
     <div class="cta-section__bg" aria-hidden="true"></div>
     <div class="container">
       <div class="cta-section__inner">
@@ -1578,11 +1582,15 @@
       }
     });
     // LOGO NAVBAR
+    var navLogoEl = document.getElementById('navbar-logo-img');
+    var ctaBgImg = document.getElementById('cta-logo-bg-img');
+    if (ctaBgImg && navLogoEl) ctaBgImg.src = navLogoEl.src;
     if (window.GATTI_IMAGES && GATTI_IMAGES.logo_navbar) {
       var navLogo = document.getElementById('navbar-logo-img');
       if (navLogo) navLogo.src = GATTI_IMAGES.logo_navbar;
       var footerLogo = document.getElementById("footer-logo-img");
       if (footerLogo) footerLogo.src = GATTI_IMAGES.logo_navbar;
+      if (ctaBgImg) ctaBgImg.src = GATTI_IMAGES.logo_navbar;
     }
 
     // EXPORTAR HTML CON IMAGENES EMBEBIDAS
