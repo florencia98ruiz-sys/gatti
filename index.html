@@ -719,7 +719,7 @@
     /* Tablet landscape */
     @media (max-width: 1024px) {
       .services__grid { grid-template-columns: repeat(2, 1fr); }
-      .portfolio__grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; }
+      .portfolio__grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: none; grid-auto-rows: 200px; }
     }
 
     /* Tablet portrait */
@@ -730,6 +730,7 @@
       /* Portfolio: 2 columnas, sin colocación explícita */
       .portfolio__grid {
         grid-template-columns: 1fr 1fr;
+        grid-template-rows: none;
         grid-auto-rows: 180px;
       }
       [data-portfolio-id] { grid-column: auto; grid-row: auto; }
@@ -754,6 +755,7 @@
       /* Portfolio móvil: 1 columna, sin colocación explícita */
       .portfolio__grid {
         grid-template-columns: 1fr;
+        grid-template-rows: none;
         grid-auto-rows: 220px;
       }
       [data-portfolio-id] { grid-column: 1 !important; grid-row: auto !important; }
